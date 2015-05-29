@@ -10,7 +10,11 @@ gem 'spring', :group => :development
 
 gem 'sqlite3'
 
+gem 'jbuilder'
 
+group :test, :development do
+  gem 'rspec-rails', '~> 3.0.0'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
