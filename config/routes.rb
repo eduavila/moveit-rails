@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  post 'user/register', to: 'user#create', format: :json
-  
+  post 'user/register', to: 'user#create', :format => :json
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -28,7 +28,8 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-
+  
+  resources :enteries, :only => [:create, :index], :format => :json
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales
