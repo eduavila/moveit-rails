@@ -1,2 +1,2 @@
-class EntriesController < ApplicationController
+class EntriesController < ApiController
 end
