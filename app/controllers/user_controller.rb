@@ -1,7 +1,7 @@
 class UserController < ApiController
 
   def create
-    @user = User.find_or_create_by(user_params)
+    @user = User.create_with(user_params).find_or_create_by(email: user_params[:email])
   end
 
   private
