@@ -133,3 +133,6 @@ DEPENDENCIES
   rspec-rails (~> 3.0.0)
   spring
   sqlite3
+
+BUNDLED WITH
+   1.10.2
