@@ -32,7 +32,6 @@ RSpec.describe UserController, :type => :controller do
 
     it "returns the user data without creating a duplicate" do
       create(:user, user_params[:user])
-      #User.create(name: "John Doe", email: "john.doe@email.com")
       expect do
         post :create, user_params
       end.to change(User, :count).by(0)
