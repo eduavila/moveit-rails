@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   #     end
   #   end
   
-  resources :enteries, :only => [:create, :index], :format => :json
+  resources :entries, :only => [:create, :index], :format => :json
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales
