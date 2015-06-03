@@ -41,4 +41,5 @@ RSpec.describe EntriesController, :type => :controller do
 			expect(response).to have_http_status(:unauthorized)
 	 	end
 	end
+
 end

@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
-  post 'user/register', to: 'user#create', :format => :json
+  post 'users/register', to: 'users#create', :format => :json
 
+  get 'leaderboard', to: 'users#leaderboard',:format => :json
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
