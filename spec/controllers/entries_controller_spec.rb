@@ -4,35 +4,27 @@ RSpec.describe EntriesController, :type => :controller do
 
 	render_views
 
+	let!(:user){
+		create(:user)
+	}
+
+	let(:entry_params){{email: user.email,entry: FactoryGirl.attributes_for(:entry,user_id:user.id)}}
+
 	describe "POST #create" do
-		let!(:user_1){
-			create(:user)
-		}
-		let!(:user_2){
-			create(:user)
-		}
 
 		it "create entry with valid data" do
-			entry_params = {
-				email: user_1.email,
-				entry: {
-					date: Time.now,
-					user_id: user_1.id,
-					duration: 35
-				}, :format => "json" 
-			}
 			expect do
 				post :create, entry_params
 			end.to change(Entry, :count).by(1)
 			expect(response).to have_http_status(:created)
 
 			responseData = JSON.parse(response.body)
-			expect(responseData["user_id"]).to eq(user_1.id)
+			expect(responseData["user_id"]).to eq(user.id)
 		end
 
 		it "fail when invalid data" do 
 			expect do
-				post :create, {email: user_1.email, entry: {date: Time.now}}, format: :json
+				post :create, {email: user.email, entry: {date: Time.now}}, format: :json
 			end.to change(Entry, :count).by(0)
 			expect(response).to have_http_status(:unprocessable_entity)
 		end
@@ -40,7 +32,7 @@ RSpec.describe EntriesController, :type => :controller do
 	 	it "fail when unauthorized" do
 	 		entry_params = {
 	 			date: Time.now,
-	 			user_id: user_1.id,
+	 			user_id: user.id,
 	 			duration: 35
 			}
 	 		expect do
