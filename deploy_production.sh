@@ -1,0 +1,1 @@
+git push move1t master && heroku  run rake db:migrate --app=move1t && heroku restart --app=move1t

@@ -1,0 +1,1 @@
+git push staging-move1t master && heroku  run rake db:migrate --app=staging-move1t && heroku restart --app=staging-move1t
