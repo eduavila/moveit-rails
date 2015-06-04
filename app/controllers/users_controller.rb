@@ -6,15 +6,17 @@ class UsersController < ApiController
 
   def leaderboard
   	month = params[:month]
-    start_of_month = Time.parse(month).beginning_of_month
-    end_of_month = Time.parse(month).end_of_month
 
-    
-    @entries = Entry.where('date >= ? AND date < ?', start_of_month, end_of_month)
-    .select("sum(duration) as total_duration, sum(amount_contributed) as total_amount_contributed, count(*)  as total_days, users.id as user_id")
-    .joins(:user).group("users.id").order("SUM(amount_contributed) desc")
+  	if month.blank?
+  		render json: {error: "Month parameter should be sent"}, status: :unprocessable_entity 
+  	else
+  		start_of_month = Time.parse(month).beginning_of_month
+  		end_of_month = Time.parse(month).end_of_month
 
-    # render json: {leaderboard: []}
+  		@entries = Entry.where('date >= ? AND date < ?', start_of_month, end_of_month)
+  		.select("sum(duration) as total_duration, sum(amount_contributed) as total_amount_contributed, count(*)  as total_days, users.id as user_id")
+  		.joins(:user).group("users.id").order("SUM(amount_contributed) desc")
+  	end
   end
 
   private

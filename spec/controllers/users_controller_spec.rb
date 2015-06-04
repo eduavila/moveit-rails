@@ -63,7 +63,22 @@ RSpec.describe UsersController, :type => :controller do
       })
     end
 
+    it "orders by highet contributer first order" do
+      user_2 = create(:user)
+      entry3 = create(:entry,user_id: user_2.id, duration: 30)
+      entry4 = create(:entry,user_id: user_2.id, duration: 30)
 
+      get :leaderboard, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
+      data = JSON.parse(response.body)
+
+      expect_user_order = [user_2.email, user.email]
+      expect(data["leaderboard"].map{|users_data| users_data["email"]}).to eq(expect_user_order)
+    end
+
+    it "fails if month parameter is absent" do
+       get :leaderboard, invalid_param: " ", format: :json
+       expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
 
 end
