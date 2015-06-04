@@ -8,7 +8,7 @@ default: &default
   adapter: postgresql
   encoding: utf8
   host: localhost
-  username: manoj
+  username: system_username
   password: 
   pool: 5
   timeout: 5000

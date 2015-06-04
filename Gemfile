@@ -2,19 +2,14 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 gem 'rails', '4.2.1'
-
 gem 'rails-api'
-
 gem 'spring', :group => :development
-
-
-gem 'sqlite3'
-
 gem 'jbuilder'
+gem 'pg', '~> 0.18.2'
 
 group :test, :development do
-  gem 'rspec-rails', '~> 3.0.0'
-  gem 'factory_girl_rails', "~> 4.0"
+	gem 'rspec-rails', '~> 3.0.0'
+	gem 'factory_girl_rails', "~> 4.0"
 end
 
 # To use ActiveModel has_secure_password
