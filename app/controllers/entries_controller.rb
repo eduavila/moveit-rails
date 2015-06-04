@@ -5,7 +5,7 @@ class EntriesController < ApiController
 		if @user.blank?
 			render json: {error: "User does not exist"}, status: :unauthorized
 		else
-			@entry = Entry.find_or_initialize_by(entry_params)
+			@entry = Entry.find_or_initialize_by(entry_params.merge({user_id: @user.id}))
 			if @entry.save
 				render json: @entry, status: :created
 			else
@@ -17,6 +17,6 @@ class EntriesController < ApiController
 	private
 
 	def entry_params
-		params.require(:entry).permit(:date, :user_id, :duration)
+		params.require(:entry).permit(:date, :duration)
 	end
 end

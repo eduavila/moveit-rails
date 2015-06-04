@@ -6,4 +6,11 @@ RSpec.describe Entry, :type => :model do
   	entry = create(:entry, user_id: user.id, :duration => 35)
   	expect(entry.amount_contributed).to eq(150)
   end
+
+  describe ".current_month" do
+  	xit "includes entries for the current month" do
+
+  	end
+
+  end
 end

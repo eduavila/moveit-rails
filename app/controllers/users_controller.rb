@@ -19,6 +19,10 @@ class UsersController < ApiController
   	end
   end
 
+  def monthly_summary
+    render nothing: true
+  end
+
   private
 
   def user_params

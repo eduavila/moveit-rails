@@ -81,4 +81,16 @@ RSpec.describe UsersController, :type => :controller do
     end
   end
 
+
+  describe "GET monthly report" do
+    it "fetches all entries for given month" do
+      get :monthly_summary, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
+      expect(response).to have_http_status(:ok)
+    end
+
+    xit "sets @entries" do
+
+    end
+  end
+
 end
