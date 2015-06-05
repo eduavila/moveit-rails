@@ -9,6 +9,7 @@ gem "pg", "~> 0.18.2"
 gem "rack-cors", require: "rack/cors"
 gem "gravtastic"
 gem "verbs"
+gem "time_difference"
 gem "unicorn"
 
 group :test, :development do

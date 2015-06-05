@@ -23,6 +23,22 @@ class UserInteraction < ActiveRecord::Base
     }
   end
 
+  def bump?
+    interaction_type == BUMP
+  end
+
+  def nudge?
+    interaction_type == NUDGE
+  end
+
+  def in_last_24_hours?
+    updated_at > (Time.now - 1.day)
+  end
+
+  def not_in_last_24_hours?
+    !(in_last_24_hours?)
+  end
+
   private
 
   def no_interactions_between_same_user

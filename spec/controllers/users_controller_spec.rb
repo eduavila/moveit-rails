@@ -45,7 +45,7 @@ RSpec.describe UsersController, :type => :controller do
   context "GET #leaderboard" do
 
     it "calculates the total duration for the user" do
-      get :leaderboard, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
+      get :leaderboard,  {:email => user.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
 
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
@@ -56,7 +56,9 @@ RSpec.describe UsersController, :type => :controller do
             "name" => user.name.titleize,
             "gravatar" => user.gravatar_url,
             "amount" => (entry1.duration + entry2.duration)*5,
-            "duration" => entry1.duration + entry2.duration
+            "duration" => entry1.duration + entry2.duration,
+            "activity_status"=>"active", 
+            "interactable"=>"active"
           }
         ],
         "monthly_goal" => MONTHLY_GOAL,
@@ -64,16 +66,25 @@ RSpec.describe UsersController, :type => :controller do
       })
     end
 
-    it "orders by highet contributer first order" do
+    it "orders by highest contributer first order" do
       user_2 = create(:user)
       create(:entry,user_id: user_2.id, duration: 30)
       create(:entry,user_id: user_2.id, duration: 30)
 
-      get :leaderboard, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
+      get :leaderboard, {:email => user.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
       data = JSON.parse(response.body)
 
       expect_user_order = [user_2.email, user.email]
       expect(data["leaderboard"].map{|users_data| users_data["email"]}).to eq(expect_user_order)
+    end
+
+    it "sets interactability for each user for user interaction" do
+      user_2 = create(:user)
+      get :leaderboard, {:email => user_2.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
+      data = JSON.parse(response.body)["leaderboard"]
+
+      expect(data[0]["interactable"]).to eq("active")
+      expect(data[0]["activity_status"]).to eq("active")
     end
 
     it "fails if month parameter is absent" do
