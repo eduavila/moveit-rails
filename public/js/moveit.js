@@ -36,12 +36,13 @@ var UserInteraction = {
 
       var data = {
         from_email_id : fromEmail,
-        to_email_id : toEmail
+        to_email_id : toEmail,
+        interaction_type: action
       };
 
       $.ajax({
         dataType: 'json',
-        url: settings.getSetting("userApiUrl") + action,
+        url: settings.getSetting("apiUrl") + "interaction.json",
         type: 'POST',
         data: data,
         success: function(data, textStatus, jqXHR) {

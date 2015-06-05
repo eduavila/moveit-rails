@@ -24,14 +24,14 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li class="active"><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html" >Add Entry</a></li>
-                    <li><a href="monthly_summary.html">Monthly Summary</a></li>
+                    <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li class="active"><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html">Add Entry</a></li>
-                    <li><a href="monthly_summary.html">Monthly Summary</a></li>
+                    <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
@@ -152,7 +152,6 @@
          function onResume(){
              location.reload();
          }
-
          
          $(function() {
              $(".button-collapse").sideNav();
@@ -167,19 +166,16 @@
 
          function requestTimeLineFeed(){
             console.log("requesting for feed_data");
-             var data={
-                 email_id: localStorage.getItem("userEmail")
-             }
              $.ajax({
-                 url: settings.getSetting("userApiUrl") + 'timeline_feed',
+                 url: settings.getSetting("apiUrl") + 'timeline_feed.json',
                  type: 'GET',
-                 data: data,
+                 data: {email: localStorage.getItem("userEmail")},
                  success: function(data, textStatus, jqXHR){
                     console.log("got feed success response");
                     console.log(data);
                     $(".loading-throbber").hide();
-                    populateTimeLine(data);
-                    markNotificationsAsRead();
+                    populateTimeLine(data.timeline_activities);
+                    //markNotificationsAsRead();
                  },
                  error: function() {
                      $(".loading-throbber").hide();
