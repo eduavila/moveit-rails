@@ -83,23 +83,18 @@ RSpec.describe UsersController, :type => :controller do
 
 
   describe "GET monthly report" do
-    it "fetches all entries for current month of the given user" do
+    it "sets @user" do
       get :monthly_summary, email: user.email, format: :json
 
-      responseData = JSON.parse(response.body)
-      expect(response).to have_http_status(:ok)
-      expect(responseData[0]["duration"]).to eq(entry1.duration)
-      expect(responseData[0]["amount_contributed"]).to eq(entry1.amount_contributed)
+      expect(assigns(:user)).to eq user
     end
 
-    it "does not include entries of a different user" do
+    it "sets @entries" do
       create :entry
 
       get :monthly_summary, email: user.email, format: :json
 
-      responseData = JSON.parse(response.body)
-
-      expect(responseData.length).to eq 2
+      expect(assigns(:entries)).to eq [entry1, entry2]
     end
 
     it "responds with a 401 if user does not exist" do
@@ -107,6 +102,24 @@ RSpec.describe UsersController, :type => :controller do
 
       expect(response).to have_http_status :not_found
     end
-  end
 
+    describe "reponse" do
+      before do
+        get :monthly_summary, email: user.email, format: :json
+      end
+
+      it "includes the user meta data" do
+        responseData = JSON.parse(response.body)
+        expect(responseData["user"]["name"]).to eq user.name
+        expect(responseData["user"]["gravatar_url"]).to eq user.gravatar_url
+      end
+
+      it "includes the monthly summary of the user" do
+        monthly_summary = JSON.parse(response.body)["user"]["monthly_summary"]
+        expect(monthly_summary[0]["duration"]).to eq(entry1.duration)
+        expect(monthly_summary[0]["amount_contributed"]).to eq(entry1.amount_contributed)
+      end
+    end
+
+  end
 end

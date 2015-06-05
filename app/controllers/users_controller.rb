@@ -20,10 +20,9 @@ class UsersController < ApiController
   end
 
   def monthly_summary
-    user = User.find_by email: params[:email]
-    if user
-      @entries = user.entries.current_month
-      render json: @entries
+    @user = User.find_by email: params[:email]
+    if @user
+      @entries = @user.entries.current_month
     else
       render json: { error: "User not found" }, status: :not_found
     end

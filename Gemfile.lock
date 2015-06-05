@@ -49,6 +49,7 @@ GEM
       thor (~> 0.19.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    gravtastic (3.2.6)
     i18n (0.7.0)
     jbuilder (2.2.16)
       activesupport (>= 3.0.0, < 5)
@@ -131,6 +132,7 @@ PLATFORMS
 DEPENDENCIES
   factory_girl_rails (~> 4.0)
   foreman
+  gravtastic
   jbuilder
   pg (~> 0.18.2)
   rack-cors
