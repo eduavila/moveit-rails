@@ -4,6 +4,10 @@ RSpec.describe UsersController, :type => :controller do
 
   render_views
 
+  let!(:user) {FactoryGirl.create(:user)}
+  let!(:entry1) {FactoryGirl.create(:entry,user_id: user.id )}
+  let!(:entry2) {FactoryGirl.create(:second_entry,user_id: user.id)}
+
   describe "#create" do
 
     let(:user_params) do
@@ -40,10 +44,6 @@ RSpec.describe UsersController, :type => :controller do
 
   context "GET #leaderboard" do
 
-    let!(:user) {FactoryGirl.create(:user)}
-    let!(:entry1) {FactoryGirl.create(:entry,user_id: user.id )}
-    let!(:entry2) {FactoryGirl.create(:second_entry,user_id: user.id)}
-
     it "calculates the total duration for the user" do
       get :leaderboard, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
 
@@ -65,8 +65,8 @@ RSpec.describe UsersController, :type => :controller do
 
     it "orders by highet contributer first order" do
       user_2 = create(:user)
-      entry3 = create(:entry,user_id: user_2.id, duration: 30)
-      entry4 = create(:entry,user_id: user_2.id, duration: 30)
+      create(:entry,user_id: user_2.id, duration: 30)
+      create(:entry,user_id: user_2.id, duration: 30)
 
       get :leaderboard, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
       data = JSON.parse(response.body)
@@ -83,13 +83,29 @@ RSpec.describe UsersController, :type => :controller do
 
 
   describe "GET monthly report" do
-    it "fetches all entries for given month" do
-      get :monthly_summary, month: "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", format: :json
+    it "fetches all entries for current month of the given user" do
+      get :monthly_summary, email: user.email, format: :json
+
+      responseData = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
+      expect(responseData[0]["duration"]).to eq(entry1.duration)
+      expect(responseData[0]["amount_contributed"]).to eq(entry1.amount_contributed)
     end
 
-    xit "sets @entries" do
+    it "does not include entries of a different user" do
+      create :entry
 
+      get :monthly_summary, email: user.email, format: :json
+
+      responseData = JSON.parse(response.body)
+
+      expect(responseData.length).to eq 2
+    end
+
+    it "responds with a 401 if user does not exist" do
+      get :monthly_summary, email: "some_email", format: :json
+
+      expect(response).to have_http_status :not_found
     end
   end
 
