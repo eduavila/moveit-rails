@@ -34,3 +34,10 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
+
+/Vagrantfile
+/.vagrant
+
+set_git_user.sh
+
+/temp_git_ignores/

@@ -1,32 +1,32 @@
-source 'https://rubygems.org'
-ruby '2.2.2'
+source "https://rubygems.org"
+ruby "2.2.2"
 
-gem 'rails', '4.2.1'
-gem 'rails-api'
-gem 'spring', :group => :development
-gem 'jbuilder'
-gem 'pg', '~> 0.18.2'
-gem 'rack-cors', :require => 'rack/cors'
+gem "rails", "4.2.1"
+gem "rails-api"
+gem "spring", group: :development
+gem "jbuilder"
+gem "pg", "~> 0.18.2"
+gem "rack-cors", require: "rack/cors"
 gem "gravtastic"
 gem "unicorn"
 
 group :test, :development do
-  gem 'foreman'
-  gem 'rspec-rails', '~> 3.0.0'
-  gem 'factory_girl_rails', "~> 4.0"
+  gem "foreman"
+  gem "rspec-rails", "~> 3.0.0"
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# gem "bcrypt", "~> 3.1.7"
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+# gem "jbuilder"
 
 # Use unicorn as the app server
-# gem 'unicorn'
+# gem "unicorn"
 
 # Deploy with Capistrano
-# gem 'capistrano', :group => :development
+# gem "capistrano", group: :development
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+# gem "ruby-debug19", require: "ruby-debug"

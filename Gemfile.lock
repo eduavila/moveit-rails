@@ -147,3 +147,6 @@ DEPENDENCIES
   rspec-rails (~> 3.0.0)
   spring
   unicorn
+
+BUNDLED WITH
+   1.10.3
