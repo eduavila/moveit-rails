@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'leaderboard', to: 'users#leaderboard',:format => :json
   get 'monthly_summary', to: 'users#monthly_summary',:format => :json
   get 'timeline_feed', to: 'users#timeline_feed',:format => :json
+  post 'interaction', to: 'users#interaction', :format => :json
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

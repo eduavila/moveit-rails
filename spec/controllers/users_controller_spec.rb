@@ -125,7 +125,8 @@ RSpec.describe UsersController, :type => :controller do
   end
 
   context "GET #timeline_feed" do
-
+    let(:from_user) { create(:user) }
+    let(:to_user) { create(:user) }
     it "return workout activities" do
       workout_entry = create(:entry, created_at: "2015-05-25 00:00:00", user: user)
 
@@ -137,10 +138,67 @@ RSpec.describe UsersController, :type => :controller do
       expect(responseData[0]["activity_json_data"]["id"]).to eq workout_entry.id    
     end
 
+    it "return user interaction activities" do
+      interaction = create(:user_interaction, :bump, from_user: from_user, to_user: to_user)
+
+      get :timeline_feed, email: to_user.email, format: :json
+
+      expect(response).to have_http_status :ok 
+      responseData = JSON.parse(response.body)["timeline_activities"]
+      expect(responseData[0]["activity_type"]).to eq "UserInteraction"
+      expect(responseData[0]["activity_json_data"]["id"]).to eq interaction.id
+    end
+
     it "fails with a 401 if user does not exist" do
       get :timeline_feed, email: "some_email", format: :json
 
       expect(response).to have_http_status :not_found
+    end
+  end
+
+  context "POST user interaction" do 
+    let(:from_user) { create(:user) }
+    let(:to_user) { create(:user) }
+    context "BUMP" do 
+      it "creates bump user_interaction" do
+        expect do
+          post :interaction, {from_email_id: from_user.email, to_email_id: to_user.email, interaction_type: "bump" }, format: :json
+        end.to change(UserInteraction, :count).by(1)
+
+        created_interaction = UserInteraction.last
+        expect(created_interaction.to_user).to eq to_user  
+        expect(created_interaction.from_user).to eq from_user  
+        expect(created_interaction.interaction_type).to eq UserInteraction::BUMP
+      end
+
+      it "responds with bump JSON details" do
+        post :interaction, {from_email_id: from_user.email, to_email_id: to_user.email, interaction_type: "bump"}, format: :json
+
+        expect(response).to have_http_status(:created)
+        responseData = JSON.parse(response.body)
+        expect(responseData["interaction_type"]).to eq(UserInteraction::BUMP)
+      end
+    end
+
+    context "NUDGE" do 
+      it "creates nudge user_interaction" do
+        expect do
+          post :interaction, {from_email_id: from_user.email, to_email_id: to_user.email, interaction_type: "nudge" }, format: :json
+        end.to change(UserInteraction, :count).by(1)
+
+        created_interaction = UserInteraction.last
+        expect(created_interaction.to_user).to eq to_user  
+        expect(created_interaction.from_user).to eq from_user  
+        expect(created_interaction.interaction_type).to eq UserInteraction::NUDGE
+      end
+
+      it "responds with nudge JSON details" do
+        post :interaction, {from_email_id: from_user.email, to_email_id: to_user.email, interaction_type: "nudge"}, format: :json
+
+        expect(response).to have_http_status(:created)
+        responseData = JSON.parse(response.body)
+        expect(responseData["interaction_type"]).to eq(UserInteraction::NUDGE)
+      end
     end
   end
 end

@@ -131,6 +131,9 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    verbs (2.1.4)
+      activesupport (>= 2.3.4)
+      i18n
 
 PLATFORMS
   ruby
@@ -147,3 +150,4 @@ DEPENDENCIES
   rspec-rails (~> 3.0.0)
   spring
   unicorn
+  verbs
