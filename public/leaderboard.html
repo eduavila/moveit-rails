@@ -18,7 +18,7 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html">Add Entry</a></li>
-                    <li><a href="monthly_summary.html">Monthly Summary</a></li>
+                    <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li class="active"><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
@@ -261,17 +261,16 @@
              current_month = moment().endOf('month').format('MMMM YYYY');
              $('.date').text(current_month);
              currentUser = localStorage.getItem("userEmail");
-             var data = {
+             var requestData = {
                  month: current_month,
                  user_email: currentUser
-             }
-             
+             };
              
              $.ajax({
                  dataType: 'json',
-                 url: settings.getSetting("apiUrl") + 'new_leaderboard',
+                 url: settings.getSetting("apiUrl") + 'leaderboard.json',
                  type: 'GET',
-                 data: data,
+                 data: requestData,
                  success: function(data, textStatus, jqXHR) {
                      fillUserDetails(data);
                      $(".loading-throbber").hide();

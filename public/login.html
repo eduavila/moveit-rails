@@ -90,25 +90,30 @@
              $("form").submit(function(e) {
                  e.preventDefault();
                  var form = this;
-                 var data = {
-                     email: $('#email').val(),
-                     name: $('#name').val()                     
+                 var jsonFormData = {
+                    user: {
+                       email: $('#email').val(),
+                       name: $('#name').val()                     
+                    }
                  };
                  disableSaveButtonWith(form, "Registering");
                  $.ajax({
                      dataType: 'json',
-                     url: settings.getSetting("apiUrl") + 'register',
+                     contentType: "application/json; charset=utf-8",
+                     url: settings.getSetting("apiUrl") + 'users/register.json',
                      type: 'POST',
-                     data: JSON.stringify(data),
-                     success: function() {
-                         window.location = "index.html"
-                         localStorage['userEmail'] = data.email;
-                         localStorage['userName'] = data.name;
-                         enableSaveButtonWith(form, "Register");
+                     data: JSON.stringify(jsonFormData),
+                     success: function(result,status,xhr) {
+                        console.log(result);
+                        localStorage['userEmail'] = result.user.email;
+                        localStorage['userName'] = result.user.name;
+
+                        window.location = "index.html"
+                        enableSaveButtonWith(form, "Register");
                      },
-                     error: function() {
-                         enableSaveButtonWith(form, "Register");
-                         alert("Oops !! Something went wrong")
+                     error: function(xhr,status,error) {
+                        enableSaveButtonWith(form, "Register");
+                        alert("User registration failed");
                      },
                      timeout: 30000
                  });

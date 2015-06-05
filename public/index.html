@@ -23,7 +23,7 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="timeline.html">Timeline</a></li>
                     <li class="active"><a href="index.html" >Add Entry</a></li>
-                    <li><a href="monthly_summary.html">Monthly Summary</a></li>
+                    <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
@@ -98,14 +98,15 @@
                  disableSaveButtonWith(form, "SAVING");
                  var data = {
                      email: localStorage.userEmail,
-                     report: {
+                     entry: {
                          duration: $('#duration').val(),
                          date: moment($('#date').val()).format('YYYY-MM-DD HH:mm:ss')
                      }
                  };
                  $.ajax({
                      dataType: 'json',
-                     url: settings.getSetting("apiUrl") + 'reports',
+                     contentType: "application/json; charset=utf-8",
+                     url: settings.getSetting("apiUrl") + 'entries.json',
                      type: 'POST',
                      data: JSON.stringify(data),
                      success: function(data, textStatus, jqXHR) {

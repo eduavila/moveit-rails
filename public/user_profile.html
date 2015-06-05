@@ -14,7 +14,21 @@
         </div>
         <nav>
             <div class="nav-wrapper">
-                <a href="leaderboard.html" class="user-leaderboard-link"><i class="medium mdi-hardware-keyboard-arrow-left"><span class="user_name"></span></i></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Monthly Summary</span></i></a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="index.html">Add Entry</a></li>
+                    <li class="monthly-summary-link"><a href="user_profile.html">Monthly Summary</a></li>
+                    <li class="leaderboard-link"><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="index.html">Add Entry</a></li>
+                    <li><a href="monthly_summary.html">Monthly Summary</a></li>
+                    <li class="active"><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
             </div>
         </nav>
         <script type="text/html" id="user-profile-template">
@@ -125,11 +139,11 @@
              location.reload();
          }
          
-         function appendUserActivity(reports){      
-             _.each(reports, function(entry){
-                 entryHTML = '<div class="col s12 m12 item"><div class="card-panel white center-align row "> <span class="date col s4 m4">'+ moment(entry.date).format("MMMM D") + '</span> <span class="duration col s4 m4">' + entry.duration + ' min</span> <span class="amount col s4 m4">Rs ' + entry.amount + '</span> </div> </div>'
+         function appendUserActivity(monthly_summary){      
+             _.each(monthly_summary, function(entry){
+                 entryHTML = '<div class="col s12 m12 item"><div class="card-panel white center-align row "> <span class="date col s4 m4">'+ moment(entry.date).format("MMMM D") + '</span> <span class="duration col s4 m4">' + entry.duration + ' min</span> <span class="amount col s4 m4">Rs ' + entry.amount_contributed + '</span> </div> </div>'
                  $('.user-reports.row').append(entryHTML);
-                 window.totalContributionAmount += entry.amount;
+                 window.totalContributionAmount += entry.amount_contributed;
                  window.totalWorkoutDuration += entry.duration;
              });
          };
@@ -152,24 +166,20 @@
              window.totalWorkoutDuration = 0;
              $(".button-collapse").sideNav();
              var userEmail = getParameterByName("email", location);
-             var startDate = moment().startOf('month').format('YYYY-MM-DD HH:mm:ss');
-             var endDate = moment().endOf('month').format('YYYY-MM-DD HH:mm:ss');
-
-             var data = {
-                 email: userEmail,
-                 start_date: startDate,
-                 end_date: endDate
-             };
+             if(userEmail.length == 0){
+                userEmail = localStorage["userEmail"];
+                $("li.monthly-summary-link").addClass("active");
+             }
              
              $.ajax({
                  dataType: 'json',
-                 url: settings.getSetting("apiUrl") + 'user_profile',
+                 url: settings.getSetting("apiUrl") + 'monthly_summary.json',
                  type: 'GET',
-                 data: data,
+                 data: {email: userEmail},
                  success: function(data, textStatus, jqXHR) {
                      $(".loading-throbber").hide();
-                     appendUserActivity(data.report);
-                     appendUserProfile(data.details);
+                     appendUserActivity(data.user.monthly_summary);
+                     appendUserProfile(data.user);
                  },
                  error: function() {
                      alert('Opps Something Went Wrong!');
