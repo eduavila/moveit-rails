@@ -1,13 +1,11 @@
 var settings = {
   test:{
-    baseUrl: "https://pink-server.herokuapp.com/",
-    apiUrl: "http://pink-server.herokuapp.com/api/",
-    userApiUrl: "http://pink-server.herokuapp.com/api/user/"
+    baseUrl: "http://staging-move1t.herokuapp.com/",
+    apiUrl: "http://staging-move1t.herokuapp.com/"
   },
   production:{
-    baseUrl: "https://mov3it.herokuapp.com/",
-    apiUrl: "http://mov3it.herokuapp.com/api/",
-    userApiUrl: "http://mov3it.herokuapp.com/api/user/"
+    baseUrl: "http://staging-move1t.herokuapp.com/",
+    apiUrl: "http://staging-move1t.herokuapp.com/"
   },
 
   getSetting: function(setting){
