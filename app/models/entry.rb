@@ -8,6 +8,20 @@ class Entry < ActiveRecord::Base
   belongs_to :user
 
   before_save :update_amount_contribution
+  after_create :create_activity
+
+
+  def fetch_timeline_json
+    {
+      id: id,
+      from_email: user.email,
+      from_name: user.name.titleize,
+      gravatar_url: user.gravatar_url,
+      created_at:  created_at,
+      amount_contributed: amount_contributed,
+      duration: duration
+    }
+  end
 
   private
 
@@ -17,6 +31,14 @@ class Entry < ActiveRecord::Base
 
   def capped_duration
     (duration > DURATION_LIMIT_FOR_CONTRIBUTION)? DURATION_LIMIT_FOR_CONTRIBUTION : duration
+  end
+
+  def create_activity
+    Activity.create(
+      subject: self,
+      user: user,
+      target_user_id: nil
+      )
   end
 
 end

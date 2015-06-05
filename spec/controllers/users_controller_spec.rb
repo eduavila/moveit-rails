@@ -123,4 +123,24 @@ RSpec.describe UsersController, :type => :controller do
     end
 
   end
+
+  context "GET #timeline_feed" do
+
+    it "return workout activities" do
+      workout_entry = create(:entry, created_at: "2015-05-25 00:00:00", user: user)
+
+      get :timeline_feed, email: user.email, format: :json
+
+      expect(response).to have_http_status :ok 
+      responseData = JSON.parse(response.body)["timeline_activities"]
+      expect(responseData[0]["activity_type"]).to eq "Entry"
+      expect(responseData[0]["activity_json_data"]["id"]).to eq workout_entry.id    
+    end
+
+    it "fails with a 401 if user does not exist" do
+      get :timeline_feed, email: "some_email", format: :json
+
+      expect(response).to have_http_status :not_found
+    end
+  end
 end

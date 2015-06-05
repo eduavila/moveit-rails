@@ -27,4 +27,12 @@ RSpec.describe Entry, :type => :model do
     end
 
   end
+
+  describe "post create actions" do
+    it "create an activity entry of subject type Entry" do
+      expect {
+        create(:entry, :user => create(:user))
+        }.to change(Activity, :count).by(1)
+    end
+  end
 end
