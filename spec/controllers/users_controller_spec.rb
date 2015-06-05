@@ -54,6 +54,7 @@ RSpec.describe UsersController, :type => :controller do
           {
             "email" => user.email,
             "name" => user.name.titleize,
+            "gravatar" => user.gravatar_url,
             "amount" => (entry1.duration + entry2.duration)*5,
             "duration" => entry1.duration + entry2.duration
           }
