@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   def activity_status
     last_activity = self.entries.order(created_at: :desc).limit(1).first
-    time_difference = TimeDifference.between(last_activity.created_at, Time.now).in_hours
+    time_difference = last_activity.blank?? Float::INFINITY : TimeDifference.between(last_activity.created_at, Time.now).in_hours
     activity_rule = {
       0...48 => "active",
       48...Float::INFINITY => "inactive"

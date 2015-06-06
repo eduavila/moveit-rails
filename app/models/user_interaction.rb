@@ -11,6 +11,13 @@ class UserInteraction < ActiveRecord::Base
 
   after_create :create_activity
 
+  scope :unread_bumps, -> do
+    where(notification_read: false, interaction_type: UserInteraction::BUMP)
+  end
+  scope :unread_nudges, -> do
+    where(notification_read: false, interaction_type: UserInteraction::NUDGE)
+  end
+
   def fetch_timeline_json
     {
       id: id,
