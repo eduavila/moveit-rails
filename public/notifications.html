@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="css/materialize.min.css">
         <link rel="stylesheet" href="css/moveit.css">
 
-
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
@@ -20,19 +19,19 @@
         </div>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Timeline</span></i></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Notifications</span></i></a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li class="active"><a href="timeline.html">Timeline</a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html" >Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
+                    <li><a href="notifications.html" class="active">Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li class="active"><a href="timeline.html">Timeline</a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html">Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
+                    <li><a href="notifications.html" class="active">Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
@@ -40,7 +39,7 @@
             </div>
         </nav>
         <script type="text/html" id="interaction-activity-template">
-            <li class="collection-item row" data-notification_id="<%= notification_id %>">
+            <li class="collection-item row notification-read <%= notification_read %>" data-notification_id="<%= notification_id %>">
                 <a href="user_profile.html?email=<%= email %>">
                     <img src="<%= gravatarUrl %>" class="circle">
                 </a>
@@ -56,19 +55,19 @@
                 </span>
             </li>
         </script>
-        <script type="text/html" id="workout-activity-template">
-            <li class="collection-item row" data-notification_id="<%= notification_id %>">
-                <a href="user_profile.html?email=<%= email %>">
-                    <img src="<%= gravatarUrl %>" class="circle">
+        <script type="text/html" id="empty-notification-template">
+            <li class="collection-item row notification-read false" data-notification_id="<%= notification_id %>">
+                <a href="notifications.html">
+                    <img src="img/announcement.png" class="circle">
                 </a>
                 <span class="description">
                     <div class="content">
-                        <span class="subject"><%= name %></span>
-                        <span class="action">moved it!</span>
-                        <span class="object"><%= duration %>m : &#8377;<%= amount_contributed %></span>
+                        <span class="subject">None yet!</span>
+                        <span class="action"></span>
+                        <span class="object"></span>
                     </div>
                     <div class="time-ago off-white">
-                        <span class="interaction-icon"> <img src="img/<%= action %>.png"></span><span><%= time_ago %> ago</span>
+                        <span class="interaction-icon"> </span><span>You will see them soon</span>
                     </div>
                 </span>
             </li>
@@ -117,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-            <ul class="collection activity-collection" id="timeline">
+            <ul class="collection activity-collection" id="notifications-collection">
             </ul>
         </div>
         
@@ -162,21 +161,22 @@
                  window.location = "login.html";
              }
              $(".loading-throbber").show();
-             requestTimeLineFeed();
+             requestUserNotifications();
              enableTestMode();
          });
 
-         function requestTimeLineFeed(){
+         function requestUserNotifications(){
             console.log("requesting for feed_data");
              $.ajax({
-                 url: settings.getSetting("apiUrl") + 'timeline_feed.json',
+                 url: settings.getSetting("apiUrl") + 'notifications.json',
                  type: 'GET',
                  data: {email: localStorage.getItem("userEmail")},
                  success: function(data, textStatus, jqXHR){
                     console.log("got feed success response");
                     console.log(data);
                     $(".loading-throbber").hide();
-                    populateTimeLine(data.timeline_activities);
+                    populateNotificationsCollection(data.notifications);
+                    markNotificationsAsRead();
                  },
                  error: function() {
                      $(".loading-throbber").hide();
@@ -186,15 +186,17 @@
              });
          }
 
-         function populateTimeLine(feed_data) {
+         function populateNotificationsCollection(feed_data) {
+         	if(feed_data.length == 0) {
+         		var emptyActivityTemplate = $("#empty-notification-template").html();
+         		$("#notifications-collection").append(emptyActivityTemplate);
+         	}
             _.each(feed_data, function(activity){
                 console.log(activity.activity_type);
                 activity.activity_json_data.time_since_in_words = activity.time_since_in_words 
                 console.log(activity.activity_json_data);
                 if(activity.activity_type == "UserInteraction"){
                     appendInteraction(activity.activity_json_data);        
-                } else if(activity.activity_type == "Entry"){
-                    appendWorkout(activity.activity_json_data);        
                 }
             });
             
@@ -212,29 +214,30 @@
                      notification_read: interaction_activity.notification_read
                  }
                  var processedTemplate = _.template(activityTemplate);
-                 $("#timeline").append(processedTemplate(templateData));
+                 $("#notifications-collection").append(processedTemplate(templateData));
          }
 
-         function appendWorkout(workout_activity){
-             var activityTemplate = $("#workout-activity-template").html();
-                 var templateData = {
-                     notification_id: workout_activity.id,
-                     email: workout_activity.from_email,
-                     name: (localStorage['userName'] === workout_activity.from_name)? "You" : workout_activity.from_name,
-                     gravatarUrl: workout_activity.gravatar_url,
-                     time_ago: workout_activity.time_since_in_words,
-                     amount_contributed: workout_activity.amount_contributed,
-                     action: "workout",
-                     duration: workout_activity.duration
-                 }
-                 var processedTemplate = _.template(activityTemplate);
-                 $("#timeline").append(processedTemplate(templateData));
-         }
          function enableTestMode(){
              var settings = JSON.parse(localStorage.getItem("settings")) || {};
              if(settings.mode === "test"){
                  $(".test-mode").removeClass("hidden");
              }
+         }
+         
+         function markNotificationsAsRead(){
+             $.ajax({
+                 dataType: 'json',
+                 url: settings.getSetting("apiUrl") + 'notifications/read.json',
+                 type: "POST",
+                 data: {email: localStorage.getItem("userEmail")},
+                 success: function(data, textStatus, jqXHR){
+                    console.log("Marked all notifications as READ for "+localStorage.getItem("userEmail"));
+                 },
+                 error: function(){
+                    console.log("Marking notifications as read FAILED");
+                 },
+                 timeout: 30000
+             }); 
          }
         </script>
     </body>

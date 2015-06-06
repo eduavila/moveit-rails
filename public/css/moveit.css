@@ -59,32 +59,32 @@ body .top-bar {
     body .top-bar .date-and-total .goal-section {
       font-size: 13px;
       color: #bbaa4e; }
-body #timeline.collection {
+body .activity-collection.collection {
   border-top: none;
   border-bottom: none; }
-body #timeline .collection-item {
+body .activity-collection .collection-item {
   width: 92%;
   margin: 5px 4% 10px 4%;
   padding: 10px;
   box-shadow: 0px 0px 1px #c8c8c8;
   border-bottom: 1px solid #e0e0e0 !important; }
-  body #timeline .collection-item.notification-read.false {
+  body .activity-collection .collection-item.notification-read.false {
     background-color: #FFFFFF; }
-  body #timeline .collection-item.notification-read.true {
+  body .activity-collection .collection-item.notification-read.true {
     background-color: #f2f1f1; }
-  body #timeline .collection-item a {
+  body .activity-collection .collection-item a {
     cursor: pointer;
     display: inline-block;
     margin-right: 10px; }
-    body #timeline .collection-item a .circle {
+    body .activity-collection .collection-item a .circle {
       width: 45px;
       height: 45px; }
-  body #timeline .collection-item .description {
+  body .activity-collection .collection-item .description {
     display: inline-block;
     vertical-align: middle; }
-    body #timeline .collection-item .description .content {
+    body .activity-collection .collection-item .description .content {
       font-size: 16px; }
-      body #timeline .collection-item .description .content .subject {
+      body .activity-collection .collection-item .description .content .subject {
         color: #191919;
         display: inline-block;
         max-width: 90px;
@@ -92,16 +92,16 @@ body #timeline .collection-item {
         overflow: hidden;
         white-space: nowrap;
         vertical-align: top; }
-      body #timeline .collection-item .description .content .action {
+      body .activity-collection .collection-item .description .content .action {
         color: #797979; }
-      body #timeline .collection-item .description .content .object {
+      body .activity-collection .collection-item .description .content .object {
         color: #BDBDBD;
         font-size: 0.9em; }
-    body #timeline .collection-item .description .time-ago img {
+    body .activity-collection .collection-item .description .time-ago img {
       width: 22px;
       margin-right: 6px;
       font-size: 0.8em; }
-    body #timeline .collection-item .description .off-white {
+    body .activity-collection .collection-item .description .off-white {
       color: #b7b7b7; }
 body .leaderboard {
   margin-bottom: 0px;
