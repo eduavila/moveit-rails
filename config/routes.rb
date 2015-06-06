@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post 'interaction', to: 'users#interaction', :format => :json
 
   get 'notifications/message', :format => :json
+  post 'notifications/read', :format => :json
 
   resources :entries, :only => [:create, :index], :format => :json
 
