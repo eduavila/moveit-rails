@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'notifications/message', :format => :json
   post 'notifications/read', :format => :json
+  get 'notifications', to: 'notifications#index',:format => :json
 
   resources :entries, :only => [:create, :index], :format => :json
 

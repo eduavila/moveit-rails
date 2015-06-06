@@ -1,4 +1,9 @@
 class NotificationsController < ApiController
+  def index 
+    @user = User.find_by email: params[:email]
+    @notifications = Activity.by_user_interaction_type.for_user(@user)  
+  end
+
   def message
   	@time = "#{params['time']}oClock"
   	@user = User.find_by email: params[:email]

@@ -47,6 +47,7 @@ RSpec.describe NotificationsController, :type => :controller do
   		end
   	end
   end
+
   describe "POST read" do
   	let(:user) {create(:user)}
   	it "marks as read" do
@@ -58,5 +59,24 @@ RSpec.describe NotificationsController, :type => :controller do
   		read_interactions = UserInteraction.find(read_interaction_ids)
   		expect(read_interactions.map(&:notification_read).all?).to be_truthy
   	end
+  end
+
+
+  context "GET notifications" do
+    let(:from_user) { create(:user) }
+    let(:to_user) { create(:user) }
+
+    it "return all user interaction activities" do
+      interaction1 = create(:user_interaction, :bump, from_user: from_user, to_user: to_user)
+      interaction2 = create(:user_interaction, :bump, from_user: create(:user), to_user: to_user)
+
+      get :index, email: to_user.email, format: :json
+
+      expect(response).to have_http_status :ok 
+      responseData = JSON.parse(response.body)["notifications"]
+      expect(responseData[0]["activity_type"]).to eq "UserInteraction"
+      expect(responseData[0]["activity_json_data"]["id"]).to eq interaction2.id
+      expect(responseData[1]["activity_json_data"]["id"]).to eq interaction1.id
+    end
   end
 end
