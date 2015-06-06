@@ -50,11 +50,10 @@ RSpec.describe NotificationsController, :type => :controller do
   describe "POST read" do
   	let(:user) {create(:user)}
   	it "marks as read" do
-  		interactions = create_list(:user_interaction, 5, :bump)
+  		interactions = create_list(:user_interaction, 5, :bump, to_user: user)
   		read_interaction_ids = interactions.map(&:id)
-  		allow(UserInteraction).to receive(:find).and_return(interactions)
 
-  		post :read, {interaction_ids: read_interaction_ids, format: :json}
+  		post :read, {email: user.email, format: :json}
 
   		read_interactions = UserInteraction.find(read_interaction_ids)
   		expect(read_interactions.map(&:notification_read).all?).to be_truthy

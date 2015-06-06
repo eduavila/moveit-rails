@@ -7,8 +7,10 @@ class NotificationsController < ApiController
   end
 
   def read
-    UserInteraction.find(params[:interaction_ids]).each do |interaction|
-      interaction.update_attributes(notification_read: true)
+  	@user = User.find_by email: params[:email]
+  	unread_user_interactions = UserInteraction.where(to_user: @user, notification_read: false)
+    unread_user_interactions.each do |interaction|
+    	interaction.update_attributes(notification_read: true)
     end
     render json: {message: "Marked all notifications as read"}, status: :ok
   end
