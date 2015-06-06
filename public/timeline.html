@@ -38,7 +38,7 @@
             </div>
         </nav>
         <script type="text/html" id="interaction-activity-template">
-            <li class="collection-item row notification-read" data-notification_id="<%= notification_id %>">
+            <li class="collection-item row notification-read <%= notification_read %>" data-notification_id="<%= notification_id %>">
                 <a href="user_profile.html?email=<%= email %>">
                     <img src="<%= gravatarUrl %>" class="circle">
                 </a>
@@ -175,7 +175,7 @@
                     console.log(data);
                     $(".loading-throbber").hide();
                     populateTimeLine(data.timeline_activities);
-                    //markNotificationsAsRead();
+                    markNotificationsAsRead();
                  },
                  error: function() {
                      $(".loading-throbber").hide();
@@ -237,21 +237,16 @@
          }
          
          function markNotificationsAsRead(){
-             var unreadNotifications = $('.notification-read.false');
-             var unreadNotificationIds = $.map(unreadNotifications, function(element){ return $(element).data("notification_id")});
-             console.log(unreadNotificationIds);
-             data = {
-                 "interaction_ids" : unreadNotificationIds
-             }
-             
              $.ajax({
                  dataType: 'json',
-                 url: settings.getSetting("userApiUrl") + 'notifications/read',
-                 type: "PUT",
-                 data: JSON.stringify(data),
+                 url: settings.getSetting("apiUrl") + 'notifications/read.json',
+                 type: "POST",
+                 data: {email: localStorage.getItem("userEmail")},
                  success: function(data, textStatus, jqXHR){
+                    console.log("Marked all notifications as READ for "+localStorage.getItem("userEmail"));
                  },
                  error: function(){
+                    console.log("Marking notifications as read FAILED");
                  },
                  timeout: 30000
              }); 
