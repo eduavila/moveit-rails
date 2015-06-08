@@ -3,7 +3,7 @@ var settings = {
     apiUrl: "http://staging-move1t.herokuapp.com/"
   },
   production:{
-    apiUrl: "http://192.168.2.240:3000/"
+    apiUrl: "http://move1t.herokuapp.com/"
   },
 
   getSetting: function(setting){
