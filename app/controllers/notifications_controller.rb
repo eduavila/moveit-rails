@@ -19,4 +19,10 @@ class NotificationsController < ApiController
     end
     render json: {message: "Marked all notifications as read"}, status: :ok
   end
+
+  def unread
+    @user = User.find_by email: params[:email]
+    @unread_notifications = UserInteraction.where(to_user: @user, notification_read: false)
+    render json: @unread_notifications
+  end
 end

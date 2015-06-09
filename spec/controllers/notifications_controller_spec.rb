@@ -61,6 +61,21 @@ RSpec.describe NotificationsController, :type => :controller do
   	end
   end
 
+  context "GET unread" do
+    let(:user) {create(:user)}
+
+    it "return array of unread notifications" do
+      interactions = create_list(:user_interaction, 5, :bump, to_user: user)
+      interactions.first.update_attributes(notification_read: true)
+      unread_interaction_ids = interactions.map(&:id)
+
+      post :unread, {email: user.email, format: :json}
+
+      responseData = JSON.parse(response.body)
+      expect(responseData.length).to eq(UserInteraction.where(to_user: user, notification_read: false).count)
+    end
+  end
+
 
   context "GET notifications" do
     let(:from_user) { create(:user) }
