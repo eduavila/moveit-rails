@@ -29,19 +29,38 @@ body nav {
     font-size: x-large;
     margin-bottom: 35px;
     position: absolute; }
-  body nav .navbar-right {
-    margin: 0;
-    margin-right: 15px; }
-    body nav .navbar-right .notifications-link {
+  body nav .notifications-link {
+    display: block;
+    width: 50px;
+    height: 86%;
+    padding: 0px;
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    z-index: 99;
+    cursor: pointer;
+    border-radius: 30px;
+    background-color: #FFAB00; }
+    body nav .notifications-link.active {
+      background-color: #F44336; }
+    body nav .notifications-link img.notification-icon {
+      position: absolute;
+      top: 60%;
+      left: 35px;
+      width: 20px;
+      height: 20px;
+      opacity: 0.5; }
+    body nav .notifications-link .notification-count {
+      position: absolute;
+      top: -4px;
+      left: 0px;
       display: inline-block;
-      width: 45px;
-      height: 45px;
-      text-align: center;
-      padding: 5px; }
-      body nav .navbar-right .notifications-link img {
-        width: 30px;
-        height: 30px;
-        margin-top: -9px; }
+      width: 100%;
+      height: 24px;
+      font-size: 14px;
+      color: white;
+      border-radius: 20px;
+      text-align: center; }
 body .container {
   width: 100%;
   padding-top: 0px; }
@@ -291,9 +310,5 @@ a:hover, a:focus {
 
 .card-panel {
   color: rgba(0, 0, 0, 0.66); }
-
-@media (max-width: 768px) {
-  p.navbar-right {
-    float: right; } }
 
 /*# sourceMappingURL=moveit.css.map */

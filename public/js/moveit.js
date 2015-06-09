@@ -23,6 +23,26 @@ var getParameterByName = function(name, location) {
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
+var setUnreadNotificationStatus = function() {
+  $.ajax({
+   dataType: 'json',
+   url: settings.getSetting("apiUrl") + 'notifications/unread.json',
+   type: "GET",
+   data: {email: localStorage.getItem("userEmail")},
+   success: function(data, textStatus, jqXHR){
+    var unreadCount = data.length;
+    $("a.notifications-link .notification-count").text(unreadCount);
+    if(unreadCount > 0){
+      $("a.notifications-link").addClass("active");
+    }
+   },
+   error: function(){
+    console.log("Failed to fetch UNREAD notifications");
+  },
+  timeout: 30000
+ }); 
+}
+
 var UserInteraction = {
   action: function(fromEmail, toEmail, draggable, action, name){
 

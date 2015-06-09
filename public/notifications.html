@@ -36,6 +36,10 @@
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
+                <a class="notifications-link" href="notifications.html">
+                    <img class="notification-icon" src="img/line-bell.png"/>
+                    <span class="notification-count"></span>
+                </a>
             </div>
         </nav>
         <script type="text/html" id="interaction-activity-template">
@@ -156,6 +160,7 @@
          
          $(function() {
              $(".button-collapse").sideNav();
+             setUnreadNotificationStatus();
 
              if(_.isEmpty(localStorage['userEmail'])){
                  window.location = "login.html";
@@ -163,6 +168,7 @@
              $(".loading-throbber").show();
              requestUserNotifications();
              enableTestMode();
+             setUnreadNotificationStatus();
          });
 
          function requestUserNotifications(){

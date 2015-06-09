@@ -23,7 +23,6 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="timeline.html">Timeline</a></li>
                     <li class="active"><a href="index.html" >Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
@@ -31,11 +30,14 @@
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="timeline.html">Timeline</a></li>
                     <li class="active"><a href="index.html">Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
+                <a class="notifications-link" href="notifications.html">
+                    <img class="notification-icon" src="img/line-bell.png"/>
+                    <span class="notification-count"></span>
+                </a>
             </div>
         </nav>
         <div class="container">
@@ -124,6 +126,7 @@
                  });
              });
              enableTestMode();
+             setUnreadNotificationStatus();
          });
 
          function enableTestMode(){

@@ -24,7 +24,6 @@
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li class="active"><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html" >Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>
                     <li><a href="settings.html">Settings</a></li>
@@ -32,18 +31,14 @@
                 <ul class="side-nav" id="mobile-demo">
                     <li class="active"><a href="timeline.html">Timeline</a></li>
                     <li><a href="index.html">Add Entry</a></li>
-                    <li><a href="notifications.html" >Notifications</a></li>
                     <li><a href="user_profile.html">Monthly Summary</a></li>
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
-
-                <p class="navbar-right hidden">
-                    <a class="notifications-link" href="notifications.html">
-                        <img class="notification-icon" src="img/line-bell.png"/>
-                        <span class="notification-count">3</span>
-                    </a>
-                </p>
+                <a class="notifications-link" href="notifications.html">
+                    <img class="notification-icon" src="img/line-bell.png"/>
+                    <span class="notification-count"></span>
+                </a>
             </div>
         </nav>
 
@@ -171,7 +166,9 @@
              }
              $(".loading-throbber").show();
              requestTimeLineFeed();
+             
              enableTestMode();
+             setUnreadNotificationStatus();
          });
 
          function requestTimeLineFeed(){
