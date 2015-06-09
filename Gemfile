@@ -12,10 +12,13 @@ gem "verbs"
 gem "time_difference"
 gem "unicorn"
 
-group :test, :development do
-  gem "foreman"
+group :test do
   gem "rspec-rails", "~> 3.0.0"
   gem "factory_girl_rails", "~> 4.0"
+end
+
+group :development do
+  gem "foreman"
   gem 'sass'
 end
 
