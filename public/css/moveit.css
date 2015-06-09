@@ -29,6 +29,19 @@ body nav {
     font-size: x-large;
     margin-bottom: 35px;
     position: absolute; }
+  body nav .navbar-right {
+    margin: 0;
+    margin-right: 15px; }
+    body nav .navbar-right .notifications-link {
+      display: inline-block;
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      padding: 5px; }
+      body nav .navbar-right .notifications-link img {
+        width: 30px;
+        height: 30px;
+        margin-top: -9px; }
 body .container {
   width: 100%;
   padding-top: 0px; }
@@ -278,5 +291,9 @@ a:hover, a:focus {
 
 .card-panel {
   color: rgba(0, 0, 0, 0.66); }
+
+@media (max-width: 768px) {
+  p.navbar-right {
+    float: right; } }
 
 /*# sourceMappingURL=moveit.css.map */

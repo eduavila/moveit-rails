@@ -40,6 +40,7 @@
                     <div class="name center-align">
                         <span><%= name %></span>
                     </div>
+                    <p class="profile-email center-align"><%= email %></p>
                 </div>
             </div>
             <div class="contributions">
@@ -155,6 +156,7 @@
              var templateData = {
                  "profile_img_url" : userDetails.gravatar_url,
                  "name" : userDetails.name,
+                 "email" : userDetails.email,
                  "amount": window.totalContributionAmount,
                  "time": window.totalWorkoutDuration
              };

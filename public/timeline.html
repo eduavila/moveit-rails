@@ -37,8 +37,16 @@
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
+
+                <p class="navbar-right hidden">
+                    <a class="notifications-link" href="notifications.html">
+                        <img class="notification-icon" src="img/line-bell.png"/>
+                        <span class="notification-count">3</span>
+                    </a>
+                </p>
             </div>
         </nav>
+
         <script type="text/html" id="interaction-activity-template">
             <li class="collection-item row" data-notification_id="<%= notification_id %>">
                 <a href="user_profile.html?email=<%= email %>">
