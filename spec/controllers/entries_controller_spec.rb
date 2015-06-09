@@ -22,6 +22,19 @@ RSpec.describe EntriesController, :type => :controller do
       expect(responseData["user_id"]).to eq(user.id)
     end
 
+    it "updates entry if same date" do
+      todays_entry = create(:entry, user: user)
+      entry_params[:entry][:duration] = 30
+      expect do
+        post :create, entry_params
+      end.to change(Entry, :count).by(0)
+      expect(response).to have_http_status(:created)
+
+      responseData = JSON.parse(response.body)
+      expect(responseData["user_id"]).to eq(user.id)
+      expect(responseData["duration"]).to eq(30)
+    end
+
     it "fail when invalid data" do
       expect do
         post :create, {email: user.email, entry: {date: Time.now}}, format: :json

@@ -5,8 +5,9 @@ class EntriesController < ApiController
 		if @user.blank?
 			render json: {error: "User does not exist"}, status: :unauthorized
 		else
-			@entry = Entry.find_or_initialize_by(entry_params.merge({user_id: @user.id}))
-			if @entry.save
+			@entry = Entry.find_or_initialize_by(date: entry_params["date"], user_id: @user.id)
+			
+			if @entry.update_attributes(entry_params)
 				render json: @entry, status: :created
 			else
 				render json: {error: "Wrong data for entry"}, status: :unprocessable_entity
