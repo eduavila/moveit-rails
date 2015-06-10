@@ -23,7 +23,7 @@ class UsersController < ApiController
       start_of_month = Time.parse(month).beginning_of_month
       end_of_month = Time.parse(month).end_of_month
       @user = User.find_by_email(params[:email])
-      @entries = Entry.where('date >= ? AND date < ?', start_of_month, end_of_month)
+      @entries = Entry.where('date >= ? AND date <= ?', start_of_month, end_of_month)
         .select("sum(duration) as total_duration, sum(amount_contributed) as total_amount_contributed, count(*)  as total_days, users.id as user_id")
         .joins(:user).group("users.id").order("SUM(amount_contributed) desc")
     end
