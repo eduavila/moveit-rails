@@ -1,6 +1,6 @@
 class Entry < ActiveRecord::Base
   scope :current_month, -> do
-    where("date > ? AND date < ?", Time.now.beginning_of_month, Time.now.end_of_month).order("date DESC")
+    where("date >= ? AND date <= ?", Time.now.beginning_of_month, Time.now.end_of_month).order("date DESC")
   end
 
   validates :date, :duration, presence: true
