@@ -163,7 +163,10 @@
 
              if(_.isEmpty(localStorage['userEmail'])){
                  window.location = "login.html";
+             } else {
+               SharedPreferenceInterface.putString("email", localStorage['userEmail']);
              }
+             
              $(".loading-throbber").show();
              requestTimeLineFeed();
              
