@@ -225,21 +225,11 @@
                      title_text = userDetails.name;
                      css_class = '';
                  }
-                 console.log(userDetails.activity_status);
-
-                 if(userDetails.interactable === "active" ){
-                     activity = "bump"; 
-                 }else if(userDetails.interactable === "inactive" ){
-                     activity = "nudge"
-                 }
-                 else{
-                     activity = "none"
-                 }
                  
                  var userTemplate = $("#user-details-template").html();
                  var templateData = {
                      "css_class": css_class,
-                     "action": activity,
+                     "action": userDetails.interactable,
                      "activity_status": userDetails.activity_status + '-user',
                      "index": index + 1,
                      "gravatar" : userDetails.gravatar,
