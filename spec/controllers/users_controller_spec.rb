@@ -58,7 +58,7 @@ RSpec.describe UsersController, :type => :controller do
             "amount" => (entry1.duration + entry2.duration)*5,
             "duration" => entry1.duration + entry2.duration,
             "activity_status"=>"active", 
-            "interactable"=>"active"
+            "interactable"=>"bump"
           }
         ],
         "monthly_goal" => MONTHLY_GOAL,
@@ -83,7 +83,7 @@ RSpec.describe UsersController, :type => :controller do
       get :leaderboard, {:email => user_2.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
       data = JSON.parse(response.body)["leaderboard"]
 
-      expect(data[0]["interactable"]).to eq("active")
+      expect(data[0]["interactable"]).to eq("bump")
       expect(data[0]["activity_status"]).to eq("active")
     end
 

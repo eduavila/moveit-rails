@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
   
   def interaction_for(to_user)
     unless interacted_for_last_activity?(to_user)
-      if to_user.interactable?
-        to_user.activity_status
-      end
+      return UserInteraction::NUDGE if to_user.nudgeable?
+      return UserInteraction::BUMP if to_user.bumpable?
     end
+    return "none"
   end
 
   def active?
@@ -47,18 +47,17 @@ class User < ActiveRecord::Base
   end
   
   def interacted_for_last_activity?(to_user)
-    latest_interaction = UserInteraction.where(from_user: self, to_user: to_user, created_at:  to_user.entries.last.updated_at...Time.now).last
-    unless latest_interaction.blank?
-      return nudge_non_interactable?(latest_interaction)
-    end
-    return false
-  end
+    latest_interaction = UserInteraction.where(
+      from_user: self, 
+      to_user: to_user, 
+      created_at:  to_user.entries.last.updated_at...Time.now).last
+    return false if latest_interaction.blank?
 
-  def nudge_non_interactable?(latest_interaction)
-    # TODO. Needs refactoring since the behaviour is specific to type nudge
-    # A duck may be?
-    # nudge is interactable if last nudge was 24 hours ago
-    return false if latest_interaction.nudge? and latest_interaction.not_in_last_24_hours?
-    return true
+    return true if to_user.bumpable? and latest_interaction.bump?
+
+    if to_user.nudgeable?
+      return true if latest_interaction.nudge? and latest_interaction.in_last_24_hours?
+    end
+    false
   end
 end

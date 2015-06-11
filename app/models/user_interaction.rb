@@ -39,7 +39,7 @@ class UserInteraction < ActiveRecord::Base
   end
 
   def in_last_24_hours?
-    updated_at > (Time.now - 1.day)
+    updated_at > 1.day.ago
   end
 
   def not_in_last_24_hours?

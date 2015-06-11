@@ -26,46 +26,20 @@ RSpec.describe User, :type => :model do
       before do
         allow(@from_user).to receive(:interacted_for_last_activity?).and_return(false)
       end
-      it "returns activity status if user is bumpable/nudgeble" do
+      it "returns interactable type if user is bumpable/nudgeble" do
         allow(@to_user).to receive(:interactable?).and_return(true)
         allow(@to_user).to receive(:activity_status).and_return("active")
-        expect(@from_user.interaction_for(@to_user)).to eq "active"
+        expect(@from_user.interaction_for(@to_user)).to eq UserInteraction::BUMP
       end
 
-      it "returns activity status if user is bumpable/nudgeble" do
+      it "returns none if user is not bumpable/nudgeble" do
         allow(@to_user).to receive(:interactable?).and_return(false)
         allow(@to_user).to receive(:activity_status).and_return("something")
-        expect(@from_user.interaction_for(@to_user)).to be_nil
-      end
-
-      it "#nudge_non_interactable?: returns true if a nudge was performed in last 1.day" do
-        @nudge = FactoryGirl.create(:user_interaction, :nudge)
-        expect(@from_user.nudge_non_interactable?(@nudge)).to be_truthy
-      end
-
-      it "#nudge_non_interactable?: returns false if nudge was performed before 1 day" do
-        @nudge = FactoryGirl.create(:user_interaction, :nudge, :created_at => Time.now - 2.days)
-        expect(@from_user.nudge_non_interactable?(@nudge)).to be_truthy
+        expect(@from_user.interaction_for(@to_user)).to eq("none")
       end
 
       it "returns false if there are no user interaction activity" do
         expect(@from_user.interacted_for_last_activity?(@to_user)).to be_falsy
-      end
-    end
-
-    context "user not interacted today" do
-      before do
-        allow(@from_user).to receive(:interacted_for_last_activity?).and_return(true)
-      end
-      it "returns activity status if user is bumpable/nudgeble" do
-        allow(@to_user).to receive(:activity_status).and_return("active")
-        expect(@from_user.interaction_for(@to_user)).to be_nil
-      end
-
-      it "returns activity status if user is bumpable/nudgeble" do
-        allow(@to_user).to receive(:interactable?).and_return(false)
-        allow(@to_user).to receive(:activity_status).and_return("something")
-        expect(@from_user.interaction_for(@to_user)).to be_nil
       end
     end
   end
