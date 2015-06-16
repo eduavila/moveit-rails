@@ -75,4 +75,11 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 =end
+  require 'webmock/rspec'
+  WebMock.disable_net_connect!(allow_localhost: true)
+
+  config.before(:each) do
+    stub_request(:post, "https://hooks.slack.com/").
+    to_return(:status => 200, :body => "", :headers => {})
+  end
 end

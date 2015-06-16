@@ -76,4 +76,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+
+  MULTUNUS_SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
 end

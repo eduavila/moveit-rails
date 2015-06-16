@@ -38,4 +38,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # This webhook is same one used in production
+  MULTUNUS_SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
 end

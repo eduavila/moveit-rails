@@ -11,8 +11,10 @@ gem "gravtastic"
 gem "verbs"
 gem "time_difference"
 gem "unicorn"
+gem "slack-notify"
 
 group :test do
+  gem "webmock"
   gem "rspec-rails", "~> 3.0.0"
   gem "factory_girl_rails", "~> 4.0"
 end

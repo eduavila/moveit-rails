@@ -10,6 +10,7 @@ class UserInteraction < ActiveRecord::Base
   validate :no_interactions_between_same_user
 
   after_create :create_activity
+  after_create :notify_in_slack
 
   scope :unread_bumps, -> do
     where(notification_read: false, interaction_type: UserInteraction::BUMP)
@@ -60,5 +61,19 @@ class UserInteraction < ActiveRecord::Base
       user_id: from_user.id,
       target_user_id: to_user.id
     )
+  end
+
+  def notify_in_slack
+    # This method is for slack integration PROTOTYPE (https://trello.com/c/a4vJnG2T)
+    slack_options = {webhook_url: MULTUNUS_SLACK_WEBHOOK, username: "Moveit BOT"}
+    slack_client = SlackNotify::Client.new(slack_options)
+
+    if interaction_type == UserInteraction::BUMP
+      message = "#{from_user.name.capitalize} thinks you did great job by movingit today! :smiley:"
+    else
+      message = "Hey #{to_user.name.capitalize}, there are people who care for your health. #{from_user.name.capitalize} nudged you to get back to exercising streak :muscle:"
+    end
+
+    slack_client.notify(message, to_user.slack_user_name)
   end
 end
