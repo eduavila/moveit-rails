@@ -11,7 +11,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
-    <script type="text/javascript" charset="utf-8" src="js/customNotifications.js"></script>
     <body class="index">
         <div class="test-mode hidden">
             <span>
@@ -35,8 +34,7 @@
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
-                <a class="notifications-link" href="notifications.html">
-                    <img class="notification-icon" src="img/line-bell.png"/>
+                <a class="btn-floating btn-small waves-effect waves-light notifications-link" href="notifications.html">
                     <span class="notification-count"></span>
                 </a>
             </div>
@@ -164,7 +162,7 @@
              if(_.isEmpty(localStorage['userEmail'])){
                  window.location = "login.html";
              } else {
-               SharedPreferenceInterface.putString("email", localStorage['userEmail']);
+               saveUserDetailsForNativeServices({"email": localStorage['userEmail']});
              }
              
              $(".loading-throbber").show();
@@ -196,9 +194,7 @@
 
          function populateTimeLine(feed_data) {
             _.each(feed_data, function(activity){
-                console.log(activity.activity_type);
                 activity.activity_json_data.time_since_in_words = activity.time_since_in_words 
-                console.log(activity.activity_json_data);
                 if(activity.activity_type == "UserInteraction"){
                     appendInteraction(activity.activity_json_data);        
                 } else if(activity.activity_type == "Entry"){

@@ -4,6 +4,24 @@ $(function(){
   });
 });
 
+var isRunningOnBrowser = function() {
+  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+  if ( app ) {
+    console.log("App runnning in Native app");
+    return false;
+  } else {
+    console.log("App runnning in Browser");
+    return true;    
+  }  
+}
+
+var saveUserDetailsForNativeServices = function(userDetails) {
+  console.log("Save User details for Native IF native app: "+userDetails["email"]);
+  if( isRunningOnBrowser() == false) {
+    SharedPreferenceInterface.putString("email", userDetails["email"]);
+  }
+};
+
 var disableSaveButtonWith = function(form, text){
   var saveBtn = $(form).find('button[type=submit]')[0];
   saveBtn.disabled = true;

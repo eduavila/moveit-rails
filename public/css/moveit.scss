@@ -49,31 +49,17 @@ body {
         }
 
         .notifications-link {
-            display: block;
-            width: 45px;
-            height: 76%;
-            padding: 0px;
             position: absolute;
             top: 7px;
             right: 20px;
             z-index: 99;
-            cursor: pointer;
-            border-radius: 30px;
             background-color: #FFAB00;
             &.active {
                   background-color: #F44336;
             }
-            img.notification-icon {
-                  position: absolute;
-                  top: 60%;
-                  left: 33px;
-                  width: 20px;
-                  height: 20px;
-                  opacity: 0.5;
-            }
             .notification-count {
                 position: absolute;
-                top: -6px;
+                top: 3px;
                 left: 0px;
                 display: inline-block;
                 width: 100%;

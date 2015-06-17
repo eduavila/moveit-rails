@@ -10,7 +10,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
-    <script type="text/javascript" charset="utf-8" src="js/customNotifications.js"></script>
     <body class="index">
         <div class="test-mode hidden">
             <span>
@@ -34,10 +33,6 @@
                     <li><a href="leaderboard.html">Leaderboard</a></li>                    
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
-                <a class="notifications-link" href="notifications.html">
-                    <img class="notification-icon" src="img/line-bell.png"/>
-                    <span class="notification-count"></span>
-                </a>
             </div>
         </nav>
         <script type="text/html" id="interaction-activity-template">
@@ -158,15 +153,12 @@
          
          $(function() {
              $(".button-collapse").sideNav();
-             setUnreadNotificationStatus();
-
              if(_.isEmpty(localStorage['userEmail'])){
                  window.location = "login.html";
              }
              $(".loading-throbber").show();
              requestUserNotifications();
              enableTestMode();
-             setUnreadNotificationStatus();
          });
 
          function requestUserNotifications(){
@@ -196,9 +188,7 @@
          		$("#notifications-collection").append(emptyActivityTemplate);
          	}
             _.each(feed_data, function(activity){
-                console.log(activity.activity_type);
                 activity.activity_json_data.time_since_in_words = activity.time_since_in_words 
-                console.log(activity.activity_json_data);
                 if(activity.activity_type == "UserInteraction"){
                     appendInteraction(activity.activity_json_data);        
                 }
