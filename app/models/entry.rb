@@ -17,7 +17,7 @@ class Entry < ActiveRecord::Base
       from_email: user.email,
       from_name: user.name.titleize,
       gravatar_url: user.gravatar_url,
-      created_at:  created_at,
+      created_at:  date,
       amount_contributed: amount_contributed,
       duration: duration
     }
