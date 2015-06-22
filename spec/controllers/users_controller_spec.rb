@@ -149,15 +149,15 @@ RSpec.describe UsersController, :type => :controller do
       expect(responseData[0]["activity_json_data"]["id"]).to eq workout_entry.id    
     end
 
-    it "return user interaction activities" do
+    it "not return user interaction activities" do
       interaction = create(:user_interaction, :bump, from_user: from_user, to_user: to_user)
 
       get :timeline_feed, email: to_user.email, format: :json
 
       expect(response).to have_http_status :ok 
       responseData = JSON.parse(response.body)["timeline_activities"]
-      expect(responseData[0]["activity_type"]).to eq "UserInteraction"
-      expect(responseData[0]["activity_json_data"]["id"]).to eq interaction.id
+      expect(responseData[0]["activity_type"]).not_to eq "UserInteraction"
+      expect(responseData[0]["activity_json_data"]["id"]).not_to eq interaction.id
     end
 
     it "fails with a 401 if user does not exist" do

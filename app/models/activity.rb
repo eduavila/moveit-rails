@@ -10,4 +10,8 @@ class Activity < ActiveRecord::Base
   scope :by_user_interaction_type, -> do 
   	where(subject_type: "UserInteraction")
   end
+
+  scope :by_workout_type, ->  do 
+  	where(subject_type: "Entry")
+  end
 end

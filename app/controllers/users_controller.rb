@@ -41,7 +41,7 @@ class UsersController < ApiController
   def timeline_feed
     @user = User.find_by email: params[:email]
     if @user
-      @timeline_activities = Activity.for_user(@user)  
+      @timeline_activities = Activity.by_workout_type.for_user(@user)  
     else
       render json: { error: "User not found" }, status: :not_found
     end
