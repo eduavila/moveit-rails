@@ -30,6 +30,9 @@ class UserInteraction < ActiveRecord::Base
       notification_read: notification_read.to_s
     }
   end
+  def fetch_time_since_activity
+    created_at
+  end
 
   def bump?
     interaction_type == BUMP

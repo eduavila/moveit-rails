@@ -23,6 +23,10 @@ class Entry < ActiveRecord::Base
     }
   end
 
+  def fetch_time_since_activity
+    date
+  end
+
   private
 
   def update_amount_contribution
