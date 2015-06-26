@@ -70,11 +70,18 @@ class UserInteraction < ActiveRecord::Base
     # This method is for slack integration PROTOTYPE (https://trello.com/c/a4vJnG2T)
     slack_options = {webhook_url: MULTUNUS_SLACK_WEBHOOK, username: "Moveit BOT"}
     slack_client = SlackNotify::Client.new(slack_options)
-
+    url = "http://move1t.herokuapp.com"
     if interaction_type == UserInteraction::BUMP
-      message = "#{from_user.name.capitalize} thinks you did great job by movingit today! :smiley:"
+
+      message = "#{[':bell:',':checkered_flag:',':fire:'].sample}"\
+                " *#{from_user.name.capitalize} Bumped You!*"\
+                "\nGreat going :punch:. See how you and #{from_user.name.capitalize} are doing on the *<#{url}/leaderboard.html|leaderboard →>*"
+
     else
-      message = "Hey #{to_user.name.capitalize}, there are people who care for your health. #{from_user.name.capitalize} nudged you to get back to exercising streak :muscle:"
+      message = "#{[':loudspeaker:',':rotating_light:',':mega:'].sample}"\
+                " *#{from_user.name.capitalize} Nudged You!*"\
+                "\nHey #{to_user.name.capitalize}, been on the couch too long :zzz:?. There are people who care for your health."\
+                "\nIt's time to move it #{[':bicyclist:',':swimmer:',':running:'].sample}!  *<#{url}/timeline.html|See what everyone's been upto →>*"
     end
 
     slack_client.notify(message, to_user.slack_user_name)
