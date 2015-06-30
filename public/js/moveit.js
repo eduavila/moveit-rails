@@ -11,8 +11,8 @@ var isRunningOnBrowser = function() {
     return false;
   } else {
     console.log("App runnning in Browser");
-    return true;    
-  }  
+    return true;
+  }
 }
 
 var saveUserDetailsForNativeServices = function(userDetails) {
@@ -58,20 +58,13 @@ var setUnreadNotificationStatus = function() {
     console.log("Failed to fetch UNREAD notifications");
   },
   timeout: 30000
- }); 
+ });
 }
 
 var UserInteraction = {
   action: function(fromEmail, toEmail, draggable, action, name){
 
     if(fromEmail != toEmail &&  action != 'none'){
-      draggable.animate({
-        left: '+=400px'
-      }, 250);
-
-      draggable.siblings('.interaction-message.' + action + 'ing').removeClass('hidden');
-      draggable.hide();
-
       var data = {
         from_email_id : fromEmail,
         to_email_id : toEmail,
@@ -83,6 +76,20 @@ var UserInteraction = {
         url: settings.getSetting("apiUrl") + "interaction.json",
         type: 'POST',
         data: data,
+        beforeSend: function() {
+          draggable.animate({
+            left: '+=400px'
+          }, 250);
+          draggable.siblings('.interaction-message.' + action + 'ing').removeClass('hidden');
+          draggable.hide();
+        },
+        complete: function() {
+          draggable.show();
+          draggable.animate({
+            left: '-=400px'
+          }, 250);
+          draggable.siblings('.interaction-message.' + action + 'ing').addClass('hidden');
+        },
         success: function(data, textStatus, jqXHR) {
           console.log(action + "ing....");
           Materialize.toast("You " + action + "'d " + name, 2000);
@@ -93,14 +100,6 @@ var UserInteraction = {
           Materialize.toast("Please check your internet connection.", 3000);
         }
       });
-
-      setTimeout(function(){
-        draggable.show();
-        draggable.animate({
-          left: '-=400px'
-        }, 250);
-        draggable.siblings('.interaction-message.' + action + 'ing').addClass('hidden');
-      }, 500);
     }
   }
 };
