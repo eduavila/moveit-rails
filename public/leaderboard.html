@@ -45,8 +45,16 @@
                     <img src="img/logo.png" />
                 </span>
                 <span class="date-and-total col s10">
-                    <div class="date">
-                    </div>
+                    <a class='dropdown-button btn-flat date-dropdown' href='#' data-activates='months-dropdown'>
+                        <span class="date"></span>
+                        <i class="arrow-down"></i>
+                    </a>
+                    <ul id='months-dropdown' class='dropdown-content'>
+                        <li><a data-month="prev1" href="#!">Previuos 1</a></li>
+                        <li><a data-month="prev2" href="#!">Previuos 2</a></li>
+                        <li class="divider"></li>
+                        <li><a data-month="current"  href="#!">Current</a></li>
+                    </ul>
                     <div class="total-amount">
                         <span></span>
                         <span class="value">
@@ -246,6 +254,27 @@
                  $('.leaderboard > .row > .collection').append(processedTemplate(templateData));
              });
          }
+         
+         function setupMonthDropdown() {
+            var currentMonth = moment().endOf('month'); 
+            var previousMonth1 = moment().subtract(1, 'months').endOf('month'); 
+            var previousMonth2 = moment().subtract(2, 'months').endOf('month'); 
+            var monthURL = "leaderboard.html?month=";
+            
+            $("#months-dropdown a").each(function(){
+                if($(this).data('month') == "current") {
+                    $(this).attr('href', monthURL+currentMonth.format('MMMMYYYY'));
+                    $(this).text("Current");
+                } else if($(this).data('month') == "prev1") {
+                    $(this).attr('href',monthURL+previousMonth1.format('MMMMYYYY'));
+                    $(this).text(previousMonth1.format('MMMM'));
+                } else if($(this).data('month') == "prev2") {
+                    $(this).attr('href',monthURL+previousMonth2.format('MMMMYYYY'));
+                    $(this).text(previousMonth2.format('MMMM'));
+                }
+            });
+            
+         }
 
          $(function() {
              $(".button-collapse").sideNav();
@@ -255,14 +284,18 @@
                  window.location = "login.html"
              }
              mixpanel.identify(localStorage['userEmail']);
-             current_month = moment().endOf('month').format('MMMM YYYY');
-             $('.date').text(current_month);
+
+             setupMonthDropdown();
+             var requestMonth = $.urlParam("month"); 
+             if(requestMonth == null){
+               requestMonth = moment().endOf('month').format('MMMM YYYY'); 
+             }
+             $(".date").text(requestMonth);
              currentUser = localStorage.getItem("userEmail");
              var requestData = {
-                 month: current_month,
+                 month: requestMonth,
                  email: currentUser
              };
-
              $.ajax({
                  dataType: 'json',
                  url: settings.getSetting("apiUrl") + 'leaderboard.json',
