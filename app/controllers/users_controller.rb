@@ -1,4 +1,5 @@
 class UsersController < ApiController
+  helper ApplicationHelper
 
   def create
     @user = User.create_with(user_params).find_or_create_by(email: user_params[:email])
