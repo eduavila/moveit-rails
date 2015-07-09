@@ -45,23 +45,6 @@
             </div>
         </nav>
 
-        <script type="text/html" id="interaction-activity-template">
-            <li class="collection-item row" data-notification_id="<%= notification_id %>">
-                <a href="user_profile.html?email=<%= email %>">
-                    <img src="<%= gravatarUrl %>" class="circle">
-                </a>
-                <span class="description">
-                    <div class="content">
-                        <span class="subject"><%= name %></span>
-                        <span class="action"><%= action %> you</span>
-                        <span class="object"></span>
-                    </div>
-                    <div class="time-ago off-white">
-                        <span class="interaction-icon"> <img src="img/<%=action %>.png"></span><span><%= time_ago %> ago</span>
-                    </div>
-                </span>
-            </li>
-        </script>
         <script type="text/html" id="workout-activity-template">
             <li class="collection-item row" data-notification_id="<%= notification_id %>">
                 <a href="user_profile.html?email=<%= email %>">
@@ -70,11 +53,11 @@
                 <span class="description">
                     <div class="content">
                         <span class="subject"><%= name %></span>
-                        <span class="action">moved it!</span>
-                        <span class="object"><%= duration %>m : <%= amount_contributed %></span>
+                        <span class="object"></span>
+                        <span class="action">moved it <%= time_ago %></span>
                     </div>
                     <div class="time-ago off-white">
-                        <span class="interaction-icon"> <img src="img/<%= action %>.png"></span><span><%= time_ago %> ago</span>
+                        <span class="interaction-icon"> <img src="img/<%= action %>.png"></span><span>for <%= duration %> mins & earned <%= amount_contributed %> points</span>
                     </div>
                 </span>
             </li>
@@ -203,28 +186,11 @@
          function populateTimeLine(feed_data) {
             _.each(feed_data, function(activity){
                 activity.activity_json_data.time_since_in_words = activity.time_since_in_words
-                if(activity.activity_type == "UserInteraction"){
-                    appendInteraction(activity.activity_json_data);
-                } else if(activity.activity_type == "Entry"){
+                if(activity.activity_type == "Entry"){
                     appendWorkout(activity.activity_json_data);
                 }
             });
 
-         }
-
-         function appendInteraction(interaction_activity){
-             var activityTemplate = $("#interaction-activity-template").html();
-                 var templateData = {
-                     notification_id: interaction_activity.id,
-                     email: interaction_activity.email,
-                     name: interaction_activity.name,
-                     gravatarUrl: interaction_activity.gravatar_url,
-                     action: interaction_activity.interaction_type,
-                     time_ago: interaction_activity.time_since_in_words,
-                     notification_read: interaction_activity.notification_read
-                 }
-                 var processedTemplate = _.template(activityTemplate);
-                 $("#timeline").append(processedTemplate(templateData));
          }
 
          function appendWorkout(workout_activity){
