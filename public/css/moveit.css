@@ -91,7 +91,7 @@ body .activity-collection.collection {
 body .activity-collection .collection-item {
   width: 92%;
   margin: 5px 4% 10px 4%;
-  padding: 10px;
+  padding: 10px 10px 0px 10px;
   box-shadow: 0px 0px 1px #c8c8c8;
   border-bottom: 1px solid #e0e0e0 !important; }
   body .activity-collection .collection-item.notification-read.false {
@@ -100,6 +100,11 @@ body .activity-collection .collection-item {
       border: 3px solid #43ca01; }
   body .activity-collection .collection-item.notification-read.true {
     background-color: #EEEEEE; }
+  body .activity-collection .collection-item .activity-description {
+    color: #424242;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 1.2em; }
   body .activity-collection .collection-item a {
     cursor: pointer;
     display: inline-block;

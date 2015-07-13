@@ -47,6 +47,7 @@
 
         <script type="text/html" id="workout-activity-template">
             <li class="collection-item row" data-notification_id="<%= notification_id %>">
+              <div>
                 <a href="user_profile.html?email=<%= email %>">
                     <img src="<%= gravatarUrl %>" class="circle">
                 </a>
@@ -57,9 +58,12 @@
                         <span class="action">moved it <%= time_ago %></span>
                     </div>
                     <div class="time-ago off-white">
-                        <span class="interaction-icon"> <img src="img/<%= action %>.png"></span><span>for <%= duration %> mins & earned <%= amount_contributed %> points</span>
+                        for <%= duration %> mins & earned <%= amount_contributed %> points</span>
                     </div>
                 </span>
+                </div>
+                  <p class='activity-description'><%= description %></p>
+
             </li>
         </script>
         <div class="row">
@@ -203,6 +207,7 @@
                      time_ago: workout_activity.time_since_in_words,
                      amount_contributed: workout_activity.amount_contributed,
                      action: "workout",
+                     description: workout_activity.description,
                      duration: workout_activity.duration
                  }
                  var processedTemplate = _.template(activityTemplate);

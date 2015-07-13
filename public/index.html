@@ -45,14 +45,18 @@
         </nav>
         <div class="container">
             <form action="">
-                <div class="row form-fields">
-                    <div class="form-group col s12">
-                        <label for="date" class="">Date</label>
-                        <input type="date" class="form-control datepicker" id="date" placeholder="dd/mm/yyyy" name="report[date]" readonly>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="date" class="active">Date</label>
+                        <input type="date" class="datepicker" id="date" placeholder="dd/mm/yyyy" name="report[date]" readonly/>
                     </div>
-                    <div class="form-group col s12 input-field">
-                        <label for="duration">Duration</label>
-                        <input type="number" class="form-control " id="duration" placeholder="Duration in Minutes" name="report[duration]">
+                    <div class="input-field col s12">
+                        <input type="number" class="validate" id="duration" name="report[duration]"/>
+                        <label for="duration">Duration of workout in minutes:</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="description" class="materialize-textarea"></textarea>
+                        <label for="description">Brief description of your workout:</label>
                     </div>
                     <div class="submit-btn-container center-align col s12">
                         <button type="submit" class="btn btn-primary save-btn col s12">SAVE</button>
@@ -109,7 +113,8 @@
                     email: localStorage.userEmail,
                     entry: {
                         duration: $('#duration').val(),
-                        date: moment($('#date').val()).format('YYYY-MM-DD HH:mm:ss')
+                        date: moment($('#date').val()).format('YYYY-MM-DD HH:mm:ss'),
+                        description: $('#description').val()
                     }
                 };
                 mixpanel.track("Add Entry",{

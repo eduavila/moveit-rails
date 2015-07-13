@@ -128,7 +128,7 @@ body {
         .collection-item{
             width: 92%;
             margin: 5px 4% 10px 4%;
-            padding: 10px;
+            padding: 10px 10px 0px 10px;
             box-shadow: 0px 0px 1px rgb(200, 200, 200);
             border-bottom: 1px solid #e0e0e0 !important;
             &.notification-read{
@@ -142,7 +142,12 @@ body {
                     background-color: #EEEEEE;
                 }
             }
-            
+            .activity-description {
+                color: #424242;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                font-size: 1.2em;
+            }
             a{
                 cursor:pointer;
                 display: inline-block;
