@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe EntriesController, :type => :controller do
-
   render_views
 
   let!(:user){
@@ -20,6 +19,7 @@ RSpec.describe EntriesController, :type => :controller do
 
       responseData = JSON.parse(response.body)
       expect(responseData["user_id"]).to eq(user.id)
+      expect(responseData["description"]).not_to be_empty
     end
 
     it "updates entry if same date" do

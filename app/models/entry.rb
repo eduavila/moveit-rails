@@ -19,6 +19,7 @@ class Entry < ActiveRecord::Base
       gravatar_url: user.gravatar_url,
       created_at:  date,
       amount_contributed: amount_contributed,
+      description: description,
       duration: duration
     }
   end
