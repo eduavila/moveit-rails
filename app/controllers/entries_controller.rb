@@ -18,6 +18,6 @@ class EntriesController < ApiController
 	private
 
 	def entry_params
-		params.require(:entry).permit(:date, :duration, :description)
+		params.require(:entry).permit(:date, :duration, :description, :workout_image_url)
 	end
 end

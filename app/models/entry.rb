@@ -20,7 +20,8 @@ class Entry < ActiveRecord::Base
       created_at:  date,
       amount_contributed: amount_contributed,
       description: description,
-      duration: duration
+      duration: duration,
+      workout_image_url: workout_image_url
     }
   end
 
