@@ -112,6 +112,11 @@ body .activity-collection .collection-item {
     body .activity-collection .collection-item a .circle {
       width: 45px;
       height: 45px; }
+  body .activity-collection .collection-item .workout-uploaded-image-container {
+    padding: 10px 0px; }
+    body .activity-collection .collection-item .workout-uploaded-image-container img {
+      width: 100%;
+      height: auto; }
   body .activity-collection .collection-item .description {
     display: inline-block;
     vertical-align: middle; }
@@ -299,6 +304,23 @@ a:hover, a:focus {
 
 .form-fields {
   padding-top: 10px; }
+
+.workout-entry-form textarea {
+  padding-bottom: 10px; }
+.workout-entry-form .file-field.col .btn {
+  padding: 0px 0px;
+  height: 75px;
+  width: 75px;
+  background: #EDEDED url("../img/cam-icon.png") center no-repeat; }
+.workout-entry-form .workout-uploaded-image-container {
+  height: 100%;
+  overflow: hidden;
+  text-align: center; }
+  .workout-entry-form .workout-uploaded-image-container img {
+    width: auto;
+    height: 100%; }
+.workout-entry-form .submit-btn-container {
+  margin-top: 2em; }
 
 .arrow-down {
   width: 0px;

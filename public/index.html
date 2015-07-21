@@ -44,7 +44,7 @@
             </div>
         </nav>
         <div class="container">
-            <form action="">
+            <form action="" class="workout-entry-form" >
                 <div class="row">
                     <div class="input-field col s12">
                         <label for="date" class="active">Date</label>
@@ -54,9 +54,16 @@
                         <input type="number" class="validate" id="duration" name="report[duration]"/>
                         <label for="duration">Duration of workout in minutes:</label>
                     </div>
-                    <div class="input-field col s12">
-                        <textarea id="description" class="materialize-textarea"></textarea>
-                        <label for="description">Brief description of your workout:</label>
+                    <div class="input-field col s9">
+                        <textarea id="description" class="materialize-textarea" name="description" length="140"></textarea>
+                        <label for="description">Brief description:</label>
+                    </div>
+                    <div class="file-field input-field col s3">
+                        <div id="workout-image-upload" class="btn btn-small">
+                            <div class="workout-uploaded-image-container hidden">
+                                <img src="" alt="Image uploaded"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="submit-btn-container center-align col s12">
                         <button type="submit" class="btn btn-primary save-btn col s12">SAVE</button>
@@ -65,6 +72,7 @@
             </form>
         </div>
         <script src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/filepicker.v2.min.js"></script>
         <script src="js/moveit.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/moment.min.js"></script>
@@ -101,33 +109,31 @@
                 max: moment()
             });
 
-
-
+           initializeFilePicker();
             $('#date').val(moment().format('D MMMM, YYYY'));
 
             $("form").submit(function(e) {
                 var form = this;
                 e.preventDefault();
                 disableSaveButtonWith(form, "SAVING");
-                var data = {
+                var entryData = {
                     email: localStorage.userEmail,
                     entry: {
                         duration: $('#duration').val(),
                         date: moment($('#date').val()).format('YYYY-MM-DD HH:mm:ss'),
-                        description: $('#description').val()
+                        description: $('#description').val(),
+                        workout_image_url: $(".workout-uploaded-image-container img").attr("src")
                     }
                 };
                 mixpanel.track("Add Entry",{
-                    '$email': data.email,
-                    'Duration': data.entry.duration,
-                    'Date': data.entry.date
+                    '$email': entryData.email,
+                    'Duration': entryData.entry.duration,
+                    'Date': entryData.entry.date
                 });
                 $.ajax({
-                    dataType: 'json',
-                    contentType: "application/json; charset=utf-8",
                     url: settings.getSetting("apiUrl") + 'entries.json',
                     type: 'POST',
-                    data: JSON.stringify(data),
+                    data: entryData,
                     success: function(data, textStatus, jqXHR) {
                         enableSaveButtonWith(form, 'DONE');
                         localStorage['lastContribution'] = data.amount_contributed;
@@ -150,6 +156,42 @@
                 $(".test-mode").removeClass("hidden");
             }
         };
+
+        function initializeFilePicker() {
+            $("#workout-image-upload").click(function(){
+                openFilePicker();
+            });
+        }
+
+        function openFilePicker() {
+            var picker_options = {
+                mimetype: 'image/*',
+                container: 'modal',
+                services: ['COMPUTER'],
+                imageQuality: 60,
+                imageDim: [500, 800]
+            }
+            filepicker.setKey("AdFmUn8s2Q3eKMElczpOTz");
+            filepicker.pick(
+                picker_options,
+                function(responseData){
+                    onFilePickerSuccess(responseData);
+                },
+                function(FPError){
+                    console.log(FPError.toString());
+                    onFilePickerError();
+                }
+            );
+        }
+
+        function onFilePickerError() {
+            alert("Uploading your photo failed! Please reach out to MoveIt support for further help");
+        }
+
+        function onFilePickerSuccess(responseData) {
+            $(".workout-uploaded-image-container img").attr("src", responseData["url"])
+            $(".workout-uploaded-image-container").removeClass("hidden").focus();
+        }
         </script>
     </body>
 </html>

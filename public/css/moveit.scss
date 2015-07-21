@@ -157,6 +157,13 @@ body {
                     height: 45px;
                 }
             }
+            .workout-uploaded-image-container {
+                padding: 10px 0px;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }            
             .description{
                 display: inline-block;
                 vertical-align: middle;
@@ -440,6 +447,29 @@ a {
     padding-top: 10px;
 }
 
+.workout-entry-form {
+    textarea {
+        padding-bottom: 10px;
+    }
+    .file-field.col .btn{
+      padding: 0px 0px;
+      height: 75px;
+      width: 75px;
+      background: #EDEDED url('../img/cam-icon.png') center no-repeat;
+    }
+    .workout-uploaded-image-container {
+        height: 100%;
+        overflow: hidden;
+        text-align: center;
+        img {
+            width: auto;
+            height: 100%;
+        }
+    }
+    .submit-btn-container {
+        margin-top: 2em;
+    }
+}
 .arrow-down {
   width: 0px;
   height: 0px;

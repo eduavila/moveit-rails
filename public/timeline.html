@@ -61,8 +61,13 @@
                         for <%= duration %> mins & earned <%= amount_contributed %> points</span>
                     </div>
                 </span>
-                </div>
-                  <p class='activity-description'><%= description %></p>
+              </div>
+              <% if(workoutImageURL) { %>
+                  <div class="workout-uploaded-image-container">
+                  <img src="<%= workoutImageURL %>" alt="Image uploaded"/>
+                  </div>
+              <% } %>
+              <p class='activity-description'><%= description %></p>
 
             </li>
         </script>
@@ -208,10 +213,12 @@
                      amount_contributed: workout_activity.amount_contributed,
                      action: "workout",
                      description: workout_activity.description,
-                     duration: workout_activity.duration
-                 }
-                 var processedTemplate = _.template(activityTemplate);
-                 $("#timeline").append(processedTemplate(templateData));
+                     duration: workout_activity.duration,
+                     workoutImageURL: workout_activity.workout_image_url
+                 };
+                 var timelineTemplate = _.template(activityTemplate);
+                 $("#timeline").append(timelineTemplate(templateData));
+                 
          }
          function enableTestMode(){
              var settings = JSON.parse(localStorage.getItem("settings")) || {};
