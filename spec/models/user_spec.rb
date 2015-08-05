@@ -16,6 +16,19 @@ RSpec.describe User, :type => :model do
     end
   end
 
+  describe "organization" do
+    it "should assign Multunus organisation if it is from multunus.com email" do
+      create(:organization, name: Organization::MULTUNUS)
+      user = User.create!(name: "John Doe",email: "john.doe@multunus.com")
+      expect(user.organization.name).to eq(Organization::MULTUNUS)
+    end
+
+    it "should ignore if email is not from multunus domain" do
+      create(:organization, name: Organization::MULTUNUS)
+      user = User.create!(name: "John Doe",email: "john.doe@email.com")
+      expect(user.organization_id).to be_blank
+    end
+  end
   
   describe 'interaction_for' do
     before do

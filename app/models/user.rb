@@ -2,11 +2,21 @@ class User < ActiveRecord::Base
   include Gravtastic
   gravtastic
   has_many :entries
+  belongs_to :organization
+  after_initialize :set_organization
 
   validates_presence_of :name
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+
+  def set_organization 
+    return unless new_record?
+
+    if self.email =~ /\A[\w+\-.]+@multunus.com/i
+      self.organization = Organization.find_by_name(Organization::MULTUNUS)
+    end
+  end
 
   def activity_status
     last_activity = self.entries.order(created_at: :desc).limit(1).first
