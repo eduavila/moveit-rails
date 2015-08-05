@@ -50,17 +50,20 @@ RSpec.describe UsersController, :type => :controller do
       data = JSON.parse(response.body)
       expect(response).to have_http_status(:ok)
       expect(data).to eq({
-        "leaderboard" => [
-          {
-            "email" => user.email,
-            "name" => user.name.titleize,
-            "gravatar" => user.gravatar_url,
-            "amount" => (entry1.duration + entry2.duration)*5,
-            "duration" => entry1.duration + entry2.duration,
-            "activity_status"=>"active", 
-            "interactable"=>"bump"
-          }
-        ],
+        "leaderboard" => {
+          "with_entries" => [
+            {
+              "email" => user.email,
+              "name" => user.name.titleize,
+              "gravatar" => user.gravatar_url,
+              "amount" => (entry1.duration + entry2.duration)*5,
+              "duration" => entry1.duration + entry2.duration,
+              "activity_status"=>"active", 
+              "interactable"=>"bump"
+            }
+          ],
+          "without_entries" => []
+        },
         "monthly_goal" => MONTHLY_GOAL,
         "monthly_total_amount" => (entry1.amount_contributed + entry2.amount_contributed)
       })
@@ -75,13 +78,13 @@ RSpec.describe UsersController, :type => :controller do
       data = JSON.parse(response.body)
 
       expect_user_order = [user_2.email, user.email]
-      expect(data["leaderboard"].map{|users_data| users_data["email"]}).to eq(expect_user_order)
+      expect(data["leaderboard"]["with_entries"].map{|users_data| users_data["email"]}).to eq(expect_user_order)
     end
 
     it "sets interactability for each user for user interaction" do
       user_2 = create(:user)
       get :leaderboard, {:email => user_2.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
-      data = JSON.parse(response.body)["leaderboard"]
+      data = JSON.parse(response.body)["leaderboard"]["with_entries"]
 
       expect(data[0]["interactable"]).to eq("bump")
       expect(data[0]["activity_status"]).to eq("active")
@@ -90,6 +93,13 @@ RSpec.describe UsersController, :type => :controller do
     it "fails if month parameter is absent" do
        get :leaderboard, invalid_param: " ", format: :json
        expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "also appends all other users of Multunus" do
+      new_user = create(:user)
+      get :leaderboard, {:email => user.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
+      data = JSON.parse(response.body)["leaderboard"]
+      expect(data["without_entries"][0]["email"]).to eq(new_user.email)
     end
   end
 

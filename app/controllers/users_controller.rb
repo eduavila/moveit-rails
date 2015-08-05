@@ -27,6 +27,9 @@ class UsersController < ApiController
       @entries = Entry.where('date >= ? AND date <= ?', start_of_month, end_of_month)
         .select("sum(duration) as total_duration, sum(amount_contributed) as total_amount_contributed, count(*)  as total_days, users.id as user_id")
         .joins(:user).group("users.id").order("SUM(amount_contributed) desc")
+
+      user_ids_with_entries = @entries.map {|entry| entry.user.id}
+      @users_without_entries = User.where("id NOT in (?)", user_ids_with_entries)
     end
   end
 
