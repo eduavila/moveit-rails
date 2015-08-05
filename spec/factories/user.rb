@@ -4,6 +4,5 @@ FactoryGirl.define do
     sequence :email do |n|
       "email#{n}@multunus.org"
     end
-    organization
   end
 end

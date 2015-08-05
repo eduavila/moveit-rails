@@ -96,7 +96,7 @@ RSpec.describe UsersController, :type => :controller do
     end
 
     it "also appends all other users of Multunus" do
-      new_user = create(:user)
+      new_user = create(:user, email: "sample@multunus.com")
       get :leaderboard, {:email => user.email, :month => "#{Date::MONTHNAMES[Time.now.month]} #{Time.now.year}", :format => :json}
       data = JSON.parse(response.body)["leaderboard"]
       expect(data["without_entries"][0]["email"]).to eq(new_user.email)

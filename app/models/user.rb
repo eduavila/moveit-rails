@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_format_of :email, :with => /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
+  scope :from_multunus, -> do
+    multunus_org = Organization.find_by_name(Organization::MULTUNUS)
+    where(organization_id: multunus_org.id) unless multunus_org.blank?
+  end
+
   def set_organization 
     return unless new_record?
 

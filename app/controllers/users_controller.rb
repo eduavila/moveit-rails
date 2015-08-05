@@ -29,7 +29,7 @@ class UsersController < ApiController
         .joins(:user).group("users.id").order("SUM(amount_contributed) desc")
 
       user_ids_with_entries = @entries.map {|entry| entry.user.id}
-      @users_without_entries = User.where("id NOT in (?)", user_ids_with_entries)
+      @users_without_entries = User.from_multunus.where("id NOT in (?)", user_ids_with_entries)
     end
   end
 
