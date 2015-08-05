@@ -224,7 +224,7 @@
              var title_text = '';
              var css_class = '';
              var activity  = "";
-             _.each(data.leaderboard, function(userDetails, index){
+             _.each(data, function(userDetails, index){
                  if(userDetails.email === localStorage["userEmail"]){
                      title_text = 'YOU';
                      css_class = 'highlight';
@@ -232,17 +232,18 @@
                          showModalFor(userDetails, localStorage['lastContribution']);
                          localStorage.removeItem('lastContribution');
                      }
-                 }else{
+                 } else {
                      title_text = userDetails.name;
                      css_class = '';
                  }
 
                  var userTemplate = $("#user-details-template").html();
+                 window.userRankingIndex += 1;
                  var templateData = {
                      "css_class": css_class,
                      "action": userDetails.interactable,
                      "activity_status": userDetails.activity_status + '-user',
-                     "index": index + 1,
+                     "index": window.userRankingIndex,
                      "gravatar" : userDetails.gravatar,
                      "title_text" : title_text,
                      "amount": Globalize.format(userDetails.amount),
@@ -302,7 +303,9 @@
                  type: 'GET',
                  data: requestData,
                  success: function(data, textStatus, jqXHR) {
-                     fillUserDetails(data);
+                     window.userRankingIndex = 1;
+                     fillUserDetails(data.leaderboard.with_entries);
+                     fillUserDetails(data.leaderboard.without_entries);
                      $(".loading-throbber").hide();
                      $('.total-amount > .value').html(Globalize.format(data.monthly_total_amount));
                      $('.goal-section > .goal').text(Globalize.format(data.monthly_goal));
