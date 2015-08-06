@@ -84,6 +84,6 @@ class UserInteraction < ActiveRecord::Base
                 "\nIt's time to move it #{[':bicyclist:',':swimmer:',':running:'].sample}!  *<#{url}/timeline.html|See what everyone's been upto →>*"
     end
 
-    slack_client.notify(message, to_user.slack_user_name)
+    slack_client.notify(message, to_user.slack_user_name) unless to_user.slack_user_name.blank?
   end
 end
