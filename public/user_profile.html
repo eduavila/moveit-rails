@@ -52,11 +52,10 @@
             <div class="contributions">
                 <div class="amount attribute">
                     <div class="large-text">
-                        <span></span>
-                        <span><%= amount %></span>
+                        <span>&#8377;<%= amount %></span>
                     </div>
                     <div class="description">
-                        <span>points</span>
+                        <span>CONTRIBUTED</span>
                     </div>
                 </div>
                 <div class="minutes attribute">
@@ -152,7 +151,7 @@
 
          function appendUserActivity(monthly_summary){
              _.each(monthly_summary, function(entry){
-                 entryHTML = '<div class="col s12 m12 item"><div class="card-panel white center-align row "> <span class="date col s4 m4">'+ moment(entry.date).format("MMMM D") + '</span> <span class="duration col s4 m4">' + entry.duration + ' min</span> <span class="amount col s4 m4"> ' + entry.amount_contributed + ' pts</span> </div> </div>'
+                 entryHTML = '<div class="col s12 m12 item"><div class="card-panel white center-align row "> <span class="date col s4 m4">'+ moment(entry.date).format("MMMM D") + '</span> <span class="duration col s4 m4">' + entry.duration + ' min</span> <span class="amount col s4 m4"> &#8377;' + entry.amount_contributed + '</span> </div> </div>'
                  $('.user-reports.row').append(entryHTML);
                  window.totalContributionAmount += entry.amount_contributed;
                  window.totalWorkoutDuration += entry.duration;

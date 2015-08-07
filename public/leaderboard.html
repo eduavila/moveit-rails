@@ -56,14 +56,9 @@
                         <li><a data-month="current"  href="#!">Current</a></li>
                     </ul>
                     <div class="total-amount">
-                        <span></span>
-                        <span class="value">
-                        </span>
+                        <span>&#8377;</span><span class="value"></span>
                         <span class="goal-section">
-                            /
-                            <span></span>
-                            <span class ="goal">
-                            </span>
+                            / <span>&#8377;</span><span class ="goal"></span>
                         </span>
                     </div>
                 </span>
@@ -132,8 +127,8 @@
                     <h5 class="valign center-align">Congratulations!</h5>
                 </div>
                 <p class="amount center-align grey-text text-darken-2">
-                    <span class="value"></span>
-                    <span class="grey-text text-lighten-1 help-text">Points earned</span>
+                    &#8377;<span class="value"></span>
+                    <span class="grey-text text-lighten-1 help-text"> contributed</span>
                 </p>
             </div>
             <div class="row modal-button">
@@ -157,8 +152,7 @@
                             <span class="title col s6"> <%= title_text %> </span>
                             <span class="col s4 amount-section">
                                 <div class="amount right-align">
-                                    <span class="symbol"></span>
-                                    <%= amount %>
+                                    <span class="symbol">&#8377;</span><%= amount %>
                                 </div>
                                 <div class="duration right-align">
                                     <%= duration %>mins
@@ -303,7 +297,7 @@
                  type: 'GET',
                  data: requestData,
                  success: function(data, textStatus, jqXHR) {
-                     window.userRankingIndex = 1;
+                     window.userRankingIndex = 0;
                      fillUserDetails(data.leaderboard.with_entries);
                      fillUserDetails(data.leaderboard.without_entries);
                      $(".loading-throbber").hide();
