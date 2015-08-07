@@ -62,6 +62,9 @@ class User < ActiveRecord::Base
   end
   
   def interacted_for_last_activity?(to_user)
+    logger.debug "TO User: #{to_user.email}"
+    return true if to_user.entries.blank?
+    
     latest_interaction = UserInteraction.where(
       from_user: self, 
       to_user: to_user, 

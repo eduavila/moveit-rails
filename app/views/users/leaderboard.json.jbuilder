@@ -17,7 +17,7 @@ json.leaderboard  do
     json.amount 0
     json.duration 0
     json.activity_status user.activity_status
-    json.interactable UserInteraction::NUDGE
+    json.interactable @user.interaction_for(user)
   end
 end
 json.monthly_goal  MONTHLY_GOAL
