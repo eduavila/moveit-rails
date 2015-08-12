@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'monthly_summary', to: 'users#monthly_summary',:format => :json
   get 'timeline_feed', to: 'users#timeline_feed',:format => :json
   post 'interaction', to: 'users#interaction', :format => :json
+  get 'charities', to: 'charities#index', :format => :json
 
   get 'notifications/message', :format => :json
   post 'notifications/read', :format => :json
