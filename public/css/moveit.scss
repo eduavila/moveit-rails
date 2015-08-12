@@ -131,6 +131,7 @@ body {
             padding: 10px 10px 0px 10px;
             box-shadow: 0px 0px 1px rgb(200, 200, 200);
             border-bottom: 1px solid #e0e0e0 !important;
+            background-color: #FAFAFA;
             &.notification-read{
                 &.false{
                     background-color: #FFFFFF;
@@ -197,6 +198,26 @@ body {
                     color: rgba(183, 183, 183, 1);
                 }
             }
+        }
+    }
+    .all-time-charity-contribution {
+        font-size: 24px;
+        font-weight: bold;
+        padding: 20px 0px 0px 15px !important;
+    }
+    .charity-collection {
+        margin-top: 0px;
+        .month-charity {
+            position: relative;
+            top:0; left: 0;
+        }
+        .monthly-contribution-amount {
+            display: inline-block;
+            position: absolute;
+            top: 0px; right: 0px;
+            padding:5px 20px;
+            background-color: #FFECB3;
+            font-weight: bold;
         }
     }
     .leaderboard{

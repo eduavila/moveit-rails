@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/materialize.min.css">
         <link rel="stylesheet" href="css/moveit.css">
+
+
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
         <!-- start Mixpanel -->
@@ -10,8 +13,9 @@
         for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="js/mixpanel.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
         mixpanel.init("d483a1c5b31de18a13a7de3d10b99db4");</script>
         <!-- end Mixpanel -->
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
-    <body>
+    <body class="index">
         <div class="test-mode hidden">
             <span>
                 Test Mode Enabled
@@ -19,19 +23,19 @@
         </div>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Monthly Summary</span></i></a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Charity</span></i></a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="timeline.html">Timeline</a></li>
-                    <li class="leaderboard-link"><a href="leaderboard.html">Leaderboard</a></li>
-                    <li class="monthly-summary-link"><a href="user_profile.html">Profile</a></li>
-                    <li><a href="charity.html">Charity</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li class="active"><a href="charity.html">Charity</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li><a href="timeline.html">Timeline</a></li>
-                    <li class="leaderboard-link"><a href="leaderboard.html">Leaderboard</a></li>
-                    <li class="monthly-summary-link"><a href="user_profile.html">Profile</a></li>
-                    <li><a href="charity.html">Charity</a></li>
+                	<li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li class="active"><a href="charity.html">Charity</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
                 <a class="btn-floating btn-small waves-effect waves-light notifications-link" href="notifications.html">
@@ -39,42 +43,37 @@
                 </a>
             </div>
         </nav>
-        <script type="text/html" id="user-profile-template">
-            <div class="foreground hero valign-wrapper">
-                <div class="valign">
-                    <img class="profile-pic" src= "<%= profile_img_url %>" >
-                    <div class="name center-align">
-                        <span><%= name %></span>
-                    </div>
-                    <p class="profile-email center-align"><%= email %></p>
-                </div>
-            </div>
-            <div class="contributions">
-                <div class="amount attribute">
-                    <div class="large-text">
-                        <span>&#8377;<%= amount %></span>
-                    </div>
-                    <div class="description">
-                        <span>CONTRIBUTED</span>
-                    </div>
-                </div>
-                <div class="minutes attribute">
-                    <div class="large-text">
-                        <span><%= time %> min</span>
-                    </div>
-                    <div class="description">
-                        <span>worked out</span>
-                    </div>
-                </div>
-            </div>
+
+        <script type="text/html" id="month-charity-template">
+                <li class="collection-item row">
+                    <section class="month-charity">
+            			<h5><%= month %></h5>
+            			<span class="monthly-contribution-amount">&#8377;<%= monthlyContribution %></span>
+            			<ul class="monthly-contribution-collection collection">
+            			   <%= charityMonthBreakdownHTML %>
+            			</ul>
+            		<section>
+            	</li>
         </script>
-        <div class="user-profile">
-            <div class="row user-details">
-                <div class="hero-container" id="hero-container">
-                </div>
-            </div>
-            <div class="row user-reports">
-                <div class="loading-throbber col s12 center">
+        <script type="text/html" id="charity-breakdown-template">
+                    		<li class="contribution-collection-item collection-item">
+            					<a href="<%= URL %>">
+            						<h7><%= name %></h7>
+            					</a>
+            					<label class="individual-charity-contribution">&#8377;<%= amount %></label>
+            					<p class="charity-description"><%= description %></p>
+            				</li>
+        </script>
+        <div class="top-bar row">
+        	<div class="logo col s2">
+        		<img src="img/logo.png" />
+        	</div>
+        	<div class="all-time-charity-contribution col s9">
+        		<span>&#8377;</span><span class="value"></span>
+        	</div>
+        </div>
+        <div class="row">
+            <div class="loading-throbber col s12 center">
                     <div class="preloader-wrapper small active">
                         <div class="spinner-layer spinner-blue">
                             <div class="circle-clipper left">
@@ -117,16 +116,27 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <ul class="collection charity-collection" id="charity-collection">
+            	
+            </ul>
         </div>
+
+        <div class="bottom-spacing">
+        </div>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light add-entry-btn"><i class="mdi-content-add"></i></a>
+        </div>
+        <!-- inject stuff here -->
         <script src="js/jquery-2.1.1.min.js"></script>
-        <script src="js/underscore.min.js"></script>
-        <script src="js/materialize.min.js"></script>
+        <script src="js/moveit.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="js/globalize.min.js"></script>
-        <script src="js/moveit.js"></script>
         <script src="js/globalize.culture.as-IN.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/underscore.min.js"></script>
         <script src="js/settings.js"></script>
+
         <!-- Google Analytics -->
         <script>
          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -141,64 +151,69 @@
         <!-- End Google Analytics -->
 
         <script>
-         $(document).on("resume", onResume, false);
-
-         function onResume(){
-             location.reload();
-         }
-
-         mixpanel.identify(localStorage['userEmail']);
-
-         function appendUserActivity(monthly_summary){
-             _.each(monthly_summary, function(entry){
-                 entryHTML = '<div class="col s12 m12 item"><div class="card-panel white center-align row "> <span class="date col s4 m4">'+ moment(entry.date).format("MMMM D") + '</span> <span class="duration col s4 m4">' + entry.duration + ' min</span> <span class="amount col s4 m4"> &#8377;' + entry.amount_contributed + '</span> </div> </div>'
-                 $('.user-reports.row').append(entryHTML);
-                 window.totalContributionAmount += entry.amount_contributed;
-                 window.totalWorkoutDuration += entry.duration;
-             });
-         };
-
-         function appendUserProfile(userDetails){
-             var profileTemplate = $("#user-profile-template").html();
-             var templateData = {
-                 "profile_img_url" : userDetails.gravatar_url,
-                 "name" : userDetails.name,
-                 "email" : userDetails.email,
-                 "amount": window.totalContributionAmount,
-                 "time": window.totalWorkoutDuration
-             };
-             $(".user_name").text(userDetails.name);
-             var processedTemplate = _.template(profileTemplate)
-             $("#hero-container").html(processedTemplate(templateData));
-         }
-
-         $(function(){
-             window.totalContributionAmount = 0;
-             window.totalWorkoutDuration = 0;
+         $(function() {
              $(".button-collapse").sideNav();
-             var userEmail = getParameterByName("email", location);
-             if(userEmail.length == 0){
-                userEmail = localStorage["userEmail"];
-                $("li.monthly-summary-link").addClass("active");
-             }
+             $(".loading-throbber").show();
 
-             $.ajax({
-                 dataType: 'json',
-                 url: settings.getSetting("apiUrl") + 'monthly_summary.json',
-                 type: 'GET',
-                 data: {email: userEmail},
-                 success: function(data, textStatus, jqXHR) {
-                     $(".loading-throbber").hide();
-                     appendUserActivity(data.user.monthly_summary);
-                     appendUserProfile(data.user);
-                 },
-                 error: function() {
-                     alert('Opps Something Went Wrong!');
-                 },
-                 timeout: 100000
-             });
+             requestCharityFeed();
+
+             enableTestMode();
              setUnreadNotificationStatus();
          });
+
+         function requestCharityFeed(){
+         	$.ajax({
+         		url: settings.getSetting("apiUrl") + 'charities.json',
+         		type: 'GET',
+         		success: function(data, textStatus, jqXHR){
+         			console.log("Charity success response");
+         			console.log(data);
+         			$(".loading-throbber").hide();
+         			populateCharity(data);
+         		},
+         		error: function() {
+         			$(".loading-throbber").hide();
+         			alert('Please check your internet connection.');
+         		},
+         		timeout: 30000
+         	});
+         }
+
+         function populateCharity(data) {
+         	var totalAllTimeContribution = 0;
+         	_.each(data.charity_monthly_breakdown, function(charity_month){
+         		var charityMonthBreakdownHTML = "";
+         		totalAllTimeContribution += charity_month.total_contribution;
+         		_.each(charity_month.charities, function(charity){
+         			var charityBreakdownTemplate = $("#charity-breakdown-template").html();
+         			var charityTemplateData = {
+         				"name": charity.name,
+         				"URL": charity.URL,
+         				"amount": Globalize.format(charity.amount),
+         				"description": charity.description
+         			};
+         			var processedCharityTemplate = _.template(charityBreakdownTemplate);
+         			charityMonthBreakdownHTML += processedCharityTemplate(charityTemplateData);
+         		});
+
+         		var monthTemplate = $("#month-charity-template").html();
+         		var templateData = {
+         			"monthlyContribution": Globalize.format(charity_month.total_contribution),
+         			"month": charity_month.month,
+         			"charityMonthBreakdownHTML": charityMonthBreakdownHTML
+         		};
+         		var processedTemplate = _.template(monthTemplate);
+         		$('ul.charity-collection').append(processedTemplate(templateData));
+         	});
+	        $(".all-time-charity-contribution .value").text(Globalize.format(totalAllTimeContribution));
+         }
+
+         function enableTestMode(){
+             var settings = JSON.parse(localStorage.getItem("settings")) || {};
+             if(settings.mode === "test"){
+                 $(".test-mode").removeClass("hidden");
+             }
+         }
         </script>
     </body>
 </html>

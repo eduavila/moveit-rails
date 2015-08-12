@@ -93,7 +93,8 @@ body .activity-collection .collection-item {
   margin: 5px 4% 10px 4%;
   padding: 10px 10px 0px 10px;
   box-shadow: 0px 0px 1px #c8c8c8;
-  border-bottom: 1px solid #e0e0e0 !important; }
+  border-bottom: 1px solid #e0e0e0 !important;
+  background-color: #FAFAFA; }
   body .activity-collection .collection-item.notification-read.false {
     background-color: #FFFFFF; }
     body .activity-collection .collection-item.notification-read.false img.circle {
@@ -141,6 +142,24 @@ body .activity-collection .collection-item {
       font-size: 0.8em; }
     body .activity-collection .collection-item .description .off-white {
       color: #b7b7b7; }
+body .all-time-charity-contribution {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 20px 0px 0px 15px !important; }
+body .charity-collection {
+  margin-top: 0px; }
+  body .charity-collection .month-charity {
+    position: relative;
+    top: 0;
+    left: 0; }
+  body .charity-collection .monthly-contribution-amount {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 5px 20px;
+    background-color: #FFECB3;
+    font-weight: bold; }
 body .leaderboard {
   margin-bottom: 0px;
   padding-left: 0px;
