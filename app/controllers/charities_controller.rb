@@ -22,7 +22,7 @@ class CharitiesController < ApiController
   						name: "Charity water",
   						URL: "http://www.charitywater.org/",
   						amount: 18656,
-  						description: "Helping people in need. 10 poeple got drinking water because of this."
+  						description: "Helping people in need. 10 people got drinking water because of this."
   					},
   					{
   						name: "Join the Dots",
