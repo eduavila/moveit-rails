@@ -28,7 +28,7 @@ class CharitiesController < ApiController
   						name: "Join the Dots",
   						URL: "http://www.joiningthedots.org/",
   						amount: 15000,
-  						description: "Lending our hand of help to Nepal earthquake casualties"
+  						description: "Lending our helping hand in education"
   					}
   				]
   			},
@@ -40,7 +40,7 @@ class CharitiesController < ApiController
   						name: "Charity water",
   						URL: "http://www.charitywater.org/",
   						amount: 31138,
-  						description: "Helping almost 16 people getting drinking water"
+  						description: "An initiative to help people effected by Nepal earthquake through Charity:Water"
   					}
   				]
   			},
