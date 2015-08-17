@@ -10,7 +10,7 @@ class CharitiesController < ApiController
   						name: "Charity water",
   						URL: "http://www.charitywater.org/",
   						amount: 30738,
-  						description: "Helping almost 16 people getting drinking water"
+  						description: "We provided 16 people with clear drinking water."
   					}
   				]
   			},
@@ -22,13 +22,13 @@ class CharitiesController < ApiController
   						name: "Charity water",
   						URL: "http://www.charitywater.org/",
   						amount: 18656,
-  						description: "Helping people in need. 10 people got drinking water because of this."
+  						description: "We provided 10 people with clear drinking water."
   					},
   					{
   						name: "Join the Dots",
-  						URL: "http://www.joiningthedots.org/",
+  						URL: "http://jtdfoundation.org/",
   						amount: 15000,
-  						description: "Lending our helping hand in education"
+  						description: "In the area of rural education, 'Join the dots' foundation prevents students from discontinuing their education due to socio-economic factors."
   					}
   				]
   			},
@@ -52,7 +52,7 @@ class CharitiesController < ApiController
   						name: "Give India : Education",
   						URL: "http://www.giveindia.org/p-2789-reimburse-one-semester-education-expenses-of-a-bright-and-financially-needy-engineering-student.aspx",
   						amount: 13750,
-  						description: "Reimburse education expenses of a bright and financially needy engineering student "
+  						description: "Reimburse a part of education expenses for Basavaraj, a bright and financially needy NIT Surathkal engineering student through NGO - FFE India Trust."
   					}
   				]
   			}
