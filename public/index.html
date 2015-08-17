@@ -136,6 +136,7 @@
                     data: entryData,
                     success: function(data, textStatus, jqXHR) {
                         enableSaveButtonWith(form, 'DONE');
+                        saveUserEntryActivityForNativeServices();
                         localStorage['lastContribution'] = data.amount_contributed;
                         window.location = "leaderboard.html"
                     },
