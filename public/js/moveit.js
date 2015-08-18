@@ -22,14 +22,6 @@ var saveUserDetailsForNativeServices = function(userDetails) {
   }
 };
 
-var saveUserEntryActivityForNativeServices = function() {
-  var today = new Date();
-  console.log("Save User Entry Activity into Shared preference: "+today.toDateString());
-  if( isRunningOnBrowser() == false) {
-    SharedPreferenceInterface.putString("lastEntryMadeOn", today.toDateString());
-  }
-};
-
 var disableSaveButtonWith = function(form, text){
   var saveBtn = $(form).find('button[type=submit]')[0];
   saveBtn.disabled = true;
