@@ -21,6 +21,13 @@ RSpec.describe NotificationsController, :type => :controller do
   			expect(responseData["short"]).to eq(I18n.t('notification_messages.default.18oClock.short'))
   			expect(responseData["long"]).to eq(I18n.t('notification_messages.default.18oClock.long'))
   		end
+      it "returns activity empty for default" do
+        get :message, {time: "18", email: user.email, format: :json}
+
+        expect(response).to be_success
+        responseData = JSON.parse(response.body)
+        expect(responseData["activity"]).to eq("")
+      end
   	end
 
   	context "unread bumps" do
