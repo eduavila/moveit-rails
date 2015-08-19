@@ -43,11 +43,10 @@
 
         <script type="text/html" id="month-charity-template">
                 <li class="collection-item row">
-                    <section class="month-charity">
+                    <section id="<%= monthYear %>" class="month-charity">
             			<h5><%= month %></h5>
-            			<span class="monthly-contribution-amount">&#8377;<%= monthlyContribution %></span>
+            			<span class="monthly-contribution-amount" data-amount="0">&#8377;0</span>
             			<ul class="monthly-contribution-collection collection">
-            			   <%= charityMonthBreakdownHTML %>
             			</ul>
             		<section>
             	</li>
@@ -66,7 +65,7 @@
         		<img src="img/logo.png" />
         	</div>
         	<div class="all-time-charity-contribution col s9">
-        		<span>&#8377;</span><span class="value"></span>
+        		<span>&#8377;</span><span class="value" data-amount="0">0</span>
         	</div>
         </div>
         <div class="row">
@@ -159,13 +158,13 @@
 
          function requestCharityFeed(){
          	$.ajax({
-         		url: settings.getSetting("apiUrl") + 'charities.json',
+         		url: 'https://spreadsheets.google.com/feeds/list/1f1tFr7y62QS7IRWOC2nNR5HWsTO99Bna3d0Xv1PTPiY/od6/public/values?alt=json',
          		type: 'GET',
          		success: function(data, textStatus, jqXHR){
          			console.log("Charity success response");
          			console.log(data);
          			$(".loading-throbber").hide();
-         			populateCharity(data);
+                    populateJSONdataFromGoogleSpreadsheet(data);
          		},
          		error: function() {
          			$(".loading-throbber").hide();
@@ -175,33 +174,38 @@
          	});
          }
 
-         function populateCharity(data) {
-         	var totalAllTimeContribution = 0;
-         	_.each(data.charity_monthly_breakdown, function(charity_month){
-         		var charityMonthBreakdownHTML = "";
-         		totalAllTimeContribution += charity_month.total_contribution;
-         		_.each(charity_month.charities, function(charity){
-         			var charityBreakdownTemplate = $("#charity-breakdown-template").html();
-         			var charityTemplateData = {
-         				"name": charity.name,
-         				"URL": charity.URL,
-         				"amount": Globalize.format(charity.amount),
-         				"description": charity.description
-         			};
-         			var processedCharityTemplate = _.template(charityBreakdownTemplate);
-         			charityMonthBreakdownHTML += processedCharityTemplate(charityTemplateData);
-         		});
+         function populateJSONdataFromGoogleSpreadsheet(gData) {
+            _.each(gData.feed.entry, function(charityEntry){
+                var monthYear = charityEntry['gsx$month']['$t'] + "-" + charityEntry['gsx$year']['$t']
+                var monthYearContainer = $("#"+monthYear);
+                if(monthYearContainer.length == 0) {
+                    var monthTemplate = $("#month-charity-template").html();
+                    var templateData = {
+                        "monthYear": monthYear,
+                        "month": charityEntry['gsx$month']['$t']+ " " +charityEntry['gsx$year']['$t']
+                    };
+                    var processedTemplate = _.template(monthTemplate);
+                    $('ul.charity-collection').append(processedTemplate(templateData));
+                }
 
-         		var monthTemplate = $("#month-charity-template").html();
-         		var templateData = {
-         			"monthlyContribution": Globalize.format(charity_month.total_contribution),
-         			"month": charity_month.month,
-         			"charityMonthBreakdownHTML": charityMonthBreakdownHTML
-         		};
-         		var processedTemplate = _.template(monthTemplate);
-         		$('ul.charity-collection').append(processedTemplate(templateData));
-         	});
-	        $(".all-time-charity-contribution .value").text(Globalize.format(totalAllTimeContribution));
+                var charityBreakdownTemplate = $("#charity-breakdown-template").html();
+                var charityTemplateData = {
+                    "name": charityEntry['gsx$charityname']['$t'],
+                    "URL": charityEntry['gsx$charityurl']['$t'],
+                    "amount": Globalize.format(parseInt(charityEntry['gsx$charityamount']['$t'])),
+                    "description": charityEntry['gsx$charitydesc']['$t']
+                };
+                var processedCharityTemplate = _.template(charityBreakdownTemplate);
+                $("#"+monthYear).find("ul.monthly-contribution-collection ").append(processedCharityTemplate(charityTemplateData));
+
+                var updatedMonthlyCharityAmount = $("#"+monthYear+" .monthly-contribution-amount").data("amount")
+                updatedMonthlyCharityAmount += parseInt(charityEntry['gsx$charityamount']['$t']);
+                $("#"+monthYear+" .monthly-contribution-amount").data("amount", updatedMonthlyCharityAmount).html("&#8377;"+Globalize.format(updatedMonthlyCharityAmount)); 
+
+                var updatedTotalCharityAmount =  $(".all-time-charity-contribution .value").data("amount")
+                updatedTotalCharityAmount += parseInt(charityEntry['gsx$charityamount']['$t']);
+                $(".all-time-charity-contribution .value").data("amount", updatedTotalCharityAmount).text(Globalize.format(updatedTotalCharityAmount));
+            });
          }
 
          function enableTestMode(){
