@@ -160,6 +160,15 @@ body .charity-collection {
     padding: 5px 20px;
     background-color: #FFECB3;
     font-weight: bold; }
+  body .charity-collection .charity-image-container {
+    margin-bottom: 10px; }
+    body .charity-collection .charity-image-container img.charity-image {
+      width: 100%; }
+  body .charity-collection .btn.view-attachment {
+    background-color: #E0E0E0;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 0.8em;
+    margin-bottom: 5px; }
 body .leaderboard {
   margin-bottom: 0px;
   padding-left: 0px;

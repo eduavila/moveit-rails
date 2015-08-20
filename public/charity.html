@@ -53,11 +53,19 @@
         </script>
         <script type="text/html" id="charity-breakdown-template">
                     		<li class="contribution-collection-item collection-item">
+                                <% if(charityImageURL != ""){  %>
+                                <div class="charity-image-container">
+                                  <img class="charity-image" src="<%= charityImageURL %>"/>
+                                </div>
+                                <% } %>
             					<a href="<%= URL %>">
             						<h7><%= name %></h7>
             					</a>
             					<label class="individual-charity-contribution">&#8377;<%= amount %></label>
             					<p class="charity-description"><%= description %></p>
+                                <% if(charityAttachmentURL != ""){  %>
+                                <div class="waves-effect waves-light btn btn-small view-attachment" href="<%= charityAttachmentURL %>">view attachment</a>
+                                <% } %>
             				</li>
         </script>
         <div class="top-bar row">
@@ -152,7 +160,6 @@
              $(".loading-throbber").show();
 
              requestCharityFeed();
-
              enableTestMode();
          });
 
@@ -165,6 +172,7 @@
          			console.log(data);
          			$(".loading-throbber").hide();
                     populateJSONdataFromGoogleSpreadsheet(data);
+                    bindPDFLoader();
          		},
          		error: function() {
          			$(".loading-throbber").hide();
@@ -193,7 +201,9 @@
                     "name": charityEntry['gsx$charityname']['$t'],
                     "URL": charityEntry['gsx$charityurl']['$t'],
                     "amount": Globalize.format(parseInt(charityEntry['gsx$charityamount']['$t'])),
-                    "description": charityEntry['gsx$charitydesc']['$t']
+                    "description": charityEntry['gsx$charitydesc']['$t'],
+                    "charityImageURL": charityEntry['gsx$charityimage']['$t'],
+                    "charityAttachmentURL": charityEntry['gsx$charitypdfattachment']['$t']
                 };
                 var processedCharityTemplate = _.template(charityBreakdownTemplate);
                 $("#"+monthYear).find("ul.monthly-contribution-collection ").append(processedCharityTemplate(charityTemplateData));
@@ -205,6 +215,13 @@
                 var updatedTotalCharityAmount =  $(".all-time-charity-contribution .value").data("amount")
                 updatedTotalCharityAmount += parseInt(charityEntry['gsx$charityamount']['$t']);
                 $(".all-time-charity-contribution .value").data("amount", updatedTotalCharityAmount).text(Globalize.format(updatedTotalCharityAmount));
+            });
+         }
+
+         function bindPDFLoader(){
+            $(".view-attachment").on('click', function(e){
+                var href = $(this).attr("href");
+                window.open(encodeURI('https://docs.google.com/gview?embedded=true&url='+href), '_blank', 'location=yes,EnableViewPortScale=yes');
             });
          }
 
