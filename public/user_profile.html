@@ -46,7 +46,7 @@
                     <div class="name center-align">
                         <span><%= name %></span>
                     </div>
-                    <p class="profile-email center-align"><%= email %></p>
+                    <span class="profile-email center-align"><%= email %></span>
                 </div>
             </div>
             <div class="contributions">
@@ -74,6 +74,17 @@
                 </div>
             </div>
             <div class="row user-reports">
+                <div class="months-dropdown center-align"> 
+                <a class='dropdown-button btn-flat date-dropdown' href='#' data-activates='months-dropdown'>
+                    <span class="date"></span><i class="arrow-down"></i>
+                </a>
+                <ul id='months-dropdown' class='dropdown-content'>
+                    <li><a data-month="prev1" href="#!">Previuos 1</a></li>
+                    <li><a data-month="prev2" href="#!">Previuos 2</a></li>
+                    <li class="divider"></li>
+                    <li><a data-month="current"  href="#!">Current</a></li>
+                </ul>
+                </div>
                 <div class="loading-throbber col s12 center">
                     <div class="preloader-wrapper small active">
                         <div class="spinner-layer spinner-blue">
@@ -120,6 +131,7 @@
             </div>
         </div>
         <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/jquery-url-params.js"></script>
         <script src="js/underscore.min.js"></script>
         <script src="js/materialize.min.js"></script>
         <script src="js/moment.min.js"></script>
@@ -176,6 +188,14 @@
              window.totalContributionAmount = 0;
              window.totalWorkoutDuration = 0;
              $(".button-collapse").sideNav();
+             
+             setupMonthDropdown("user_profile.html");
+             var requestMonth = $.urlParam("month"); 
+             if(requestMonth == null){
+               requestMonth = moment().endOf('month').format('MMMM YYYY'); 
+             }
+             $(".date").text(requestMonth);
+
              var userEmail = getParameterByName("email", location);
              if(userEmail.length == 0){
                 userEmail = localStorage["userEmail"];
@@ -186,7 +206,7 @@
                  dataType: 'json',
                  url: settings.getSetting("apiUrl") + 'monthly_summary.json',
                  type: 'GET',
-                 data: {email: userEmail},
+                 data: {email: userEmail, month: requestMonth},
                  success: function(data, textStatus, jqXHR) {
                      $(".loading-throbber").hide();
                      appendUserActivity(data.user.monthly_summary);

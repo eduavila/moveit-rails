@@ -75,10 +75,6 @@ body .top-bar {
       text-transform: none;
       padding: 0px;
       height: 30px; }
-      body .top-bar .date-and-total .date-dropdown .arrow-down {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 5px; }
     body .top-bar .date-and-total .total-amount {
       font-size: 24px;
       font-weight: 700; }
@@ -262,7 +258,7 @@ body .user-profile .hero-container {
   position: relative; }
   body .user-profile .hero-container .foreground {
     background: url("../img/profile_background02.jpg");
-    height: 300px;
+    height: 240px;
     width: 100%;
     background-size: cover !important;
     background-position: center !important;
@@ -355,7 +351,10 @@ a:hover, a:focus {
   height: 0px;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #2f2f2f; }
+  border-top: 5px solid #2f2f2f;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px; }
 
 .fixed-action-btn {
   right: 20px;

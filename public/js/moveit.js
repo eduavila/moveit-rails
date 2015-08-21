@@ -61,6 +61,26 @@ var setUnreadNotificationStatus = function() {
  });
 }
 
+function setupMonthDropdown(pageHREF) {
+  var currentMonth = moment().endOf('month'); 
+  var previousMonth1 = moment().subtract(1, 'months').endOf('month'); 
+  var previousMonth2 = moment().subtract(2, 'months').endOf('month'); 
+  var monthURL = pageHREF+"?month=";
+  
+  $("#months-dropdown a").each(function(){
+    if($(this).data('month') == "current") {
+      $(this).attr('href', monthURL+currentMonth.format('MMMMYYYY'));
+      $(this).text("Current");
+    } else if($(this).data('month') == "prev1") {
+      $(this).attr('href',monthURL+previousMonth1.format('MMMMYYYY'));
+      $(this).text(previousMonth1.format('MMMM'));
+    } else if($(this).data('month') == "prev2") {
+      $(this).attr('href',monthURL+previousMonth2.format('MMMMYYYY'));
+      $(this).text(previousMonth2.format('MMMM'));
+    }
+  });  
+}
+
 var UserInteraction = {
   action: function(fromEmail, toEmail, draggable, action, name){
 
