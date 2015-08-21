@@ -113,7 +113,6 @@ RSpec.describe UsersController, :type => :controller do
 
     it "sets @entries" do
       create :entry
-
       get :monthly_summary, email: user.email, format: :json
 
       expect(assigns(:entries)).to eq [entry1, entry2]
@@ -140,6 +139,17 @@ RSpec.describe UsersController, :type => :controller do
         monthly_summary = JSON.parse(response.body)["user"]["monthly_summary"]
         expect(monthly_summary[0]["duration"]).to eq(entry1.duration)
         expect(monthly_summary[0]["amount_contributed"]).to eq(entry1.amount_contributed)
+      end
+    end
+
+    describe "response for specific month" do
+      it "includes entries created in hte ginven month" do
+        prev_month_entry = FactoryGirl.create(:entry,user_id: user.id, date: 1.month.ago, duration: 33)
+        prev_month = 1.month.ago.strftime("%B %Y")
+
+        get :monthly_summary, {email: user.email, month: prev_month,format: :json}
+        monthly_summary = JSON.parse(response.body)["user"]["monthly_summary"]
+        expect(monthly_summary[0]["duration"]).to eq(prev_month_entry.duration)
       end
     end
 

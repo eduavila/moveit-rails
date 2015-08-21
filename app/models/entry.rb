@@ -3,6 +3,10 @@ class Entry < ActiveRecord::Base
     where("date >= ? AND date <= ?", Time.now.beginning_of_month, Time.now.end_of_month).order("date DESC")
   end
 
+  scope :during_month, -> (month) {
+   where("date >= ? AND date <= ?", Time.parse(month).beginning_of_month, Time.parse(month).end_of_month).order("date DESC") 
+  }
+
   validates :date, :duration, presence: true
 
   belongs_to :user
