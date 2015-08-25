@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <link rel="stylesheet" href="css/moveit.css">
+
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!-- start Mixpanel -->
+        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="js/mixpanel.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("d483a1c5b31de18a13a7de3d10b99db4");</script>
+        <!-- end Mixpanel -->
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    </head>
+    <body class="index">
+        <div class="test-mode hidden">
+            <span>
+                Test Mode Enabled
+            </span>
+        </div>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Timeline</span></i></a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li class="active"><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="charity.html">Charity</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li class="active"><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="charity.html">Charity</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <a class="btn-floating btn-small waves-effect waves-light notifications-link" href="notifications.html">
+                    <span class="notification-count"></span>
+                </a>
+            </div>
+        </nav>
+
+        <script type="text/html" id="workout-activity-template">
+            <li class="collection-item row" data-notification_id="<%= notification_id %>">
+              <div>
+                <a href="user_profile.html?email=<%= email %>">
+                    <img src="<%= gravatarUrl %>" class="circle">
+                </a>
+                <span class="description">
+                    <div class="content">
+                        <span class="subject"><%= name %></span>
+                        <span class="object"></span>
+                        <span class="action">moved it <%= time_ago %></span>
+                    </div>
+                    <div class="time-ago off-white">
+                        for <%= duration %> mins & contributed &#8377;<%= amount_contributed %></span>
+                    </div>
+                </span>
+              </div>
+              <% if(workoutImageURL) { %>
+                  <div class="workout-uploaded-image-container">
+                  <img src="<%= workoutImageURL %>" alt="Image uploaded"/>
+                  </div>
+              <% } %>
+              <p class='activity-description'><%= description %></p>
+
+            </li>
+        </script>
+        <div class="row">
+            <div class="loading-throbber col s12 center">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <ul class="collection activity-collection" id="timeline">
+            </ul>
+        </div>
+
+        <div class="bottom-spacing">
+        </div>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light add-entry-btn"><i class="mdi-content-add"></i></a>
+        </div>
+        <!-- inject stuff here -->
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/moveit.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/underscore.min.js"></script>
+        <script src="js/settings.js"></script>
+
+        <!-- Google Analytics -->
+        <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','js/analytics.js','ga');
+
+         ga('create', 'UA-5073218-11', 'auto');
+         ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+
+        <script>
+         $(document).on("resume", onResume, false);
+
+         function onResume(){
+             location.reload();
+         }
+
+
+         $(function() {
+             $(".button-collapse").sideNav();
+
+             if(_.isEmpty(localStorage['userEmail'])){
+                 window.location = "login.html";
+             } else {
+               saveUserDetailsForNativeServices({"email": localStorage['userEmail']});
+             }
+
+             mixpanel.identify(localStorage['userEmail']);
+
+             $(".loading-throbber").show();
+             requestTimeLineFeed();
+
+             enableTestMode();
+             setUnreadNotificationStatus();
+         });
+
+         function requestTimeLineFeed(){
+            console.log("requesting for feed_data");
+             $.ajax({
+                 url: settings.getSetting("apiUrl") + 'timeline_feed.json',
+                 type: 'GET',
+                 data: {email: localStorage.getItem("userEmail")},
+                 success: function(data, textStatus, jqXHR){
+                    console.log("got feed success response");
+                    console.log(data);
+                    $(".loading-throbber").hide();
+                    populateTimeLine(data.timeline_activities);
+                 },
+                 error: function() {
+                     $(".loading-throbber").hide();
+                     alert('Oops! Something Went Wrong. Failed to fetch timeline feed.');
+                 },
+                 timeout: 30000
+             });
+         }
+
+         function populateTimeLine(feed_data) {
+            _.each(feed_data, function(activity){
+                activity.activity_json_data.time_since_in_words = activity.time_since_in_words
+                if(activity.activity_type == "Entry"){
+                    appendWorkout(activity.activity_json_data);
+                }
+            });
+
+         }
+
+         function appendWorkout(workout_activity){
+             var activityTemplate = $("#workout-activity-template").html();
+                 var templateData = {
+                     notification_id: workout_activity.id,
+                     email: workout_activity.from_email,
+                     name: (localStorage['userName'] === workout_activity.from_name)? "You" : workout_activity.from_name,
+                     gravatarUrl: workout_activity.gravatar_url,
+                     time_ago: workout_activity.time_since_in_words,
+                     amount_contributed: workout_activity.amount_contributed,
+                     action: "workout",
+                     description: workout_activity.description,
+                     duration: workout_activity.duration,
+                     workoutImageURL: workout_activity.workout_image_url
+                 };
+                 var timelineTemplate = _.template(activityTemplate);
+                 $("#timeline").append(timelineTemplate(templateData));
+                 
+         }
+         function enableTestMode(){
+             var settings = JSON.parse(localStorage.getItem("settings")) || {};
+             if(settings.mode === "test"){
+                 $(".test-mode").removeClass("hidden");
+             }
+         }
+        </script>
+    </body>
+</html>

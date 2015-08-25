@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <link rel="stylesheet" href="css/moveit.css">
+
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!-- start Mixpanel -->
+        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="js/mixpanel.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("d483a1c5b31de18a13a7de3d10b99db4");</script>
+        <!-- end Mixpanel -->
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    </head>
+    <body class="index">
+        <div class="test-mode hidden">
+            <span>
+                Test Mode Enabled
+            </span>
+        </div>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Add Entry</span></i></a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="charity.html">Charity</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="charity.html">Charity</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <a class="btn-floating btn-small waves-effect waves-light notifications-link" href="notifications.html">
+                    <span class="notification-count"></span>
+                </a>
+            </div>
+        </nav>
+        <div class="container">
+            <form action="" class="workout-entry-form" >
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="date" class="active">Date</label>
+                        <input type="date" class="datepicker" id="date" placeholder="dd/mm/yyyy" name="report[date]" readonly/>
+                    </div>
+                    <div class="input-field col s12">
+                        <input type="number" class="validate" id="duration" name="report[duration]"/>
+                        <label for="duration">Duration of workout in minutes:</label>
+                    </div>
+                    <div class="input-field col s9">
+                        <textarea id="description" class="materialize-textarea" name="description" length="140"></textarea>
+                        <label for="description">Brief description:</label>
+                    </div>
+                    <div class="file-field input-field col s3">
+                        <div id="workout-image-upload" class="btn btn-small">
+                            <div class="workout-uploaded-image-container hidden">
+                                <img src="" alt="Image uploaded"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-btn-container center-align col s12">
+                        <button type="submit" class="btn btn-primary save-btn col s12">SAVE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/filepicker.v2.min.js"></script>
+        <script src="js/moveit.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/underscore.min.js"></script>
+        <script src="js/settings.js"></script>
+
+        <!-- Google Analytics -->
+        <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','js/analytics.js','ga');
+
+         ga('create', 'UA-5073218-11', 'auto');
+         ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+
+        <script>
+        $(function() {
+
+            $(".button-collapse").sideNav();
+
+            if(_.isEmpty(localStorage['userEmail'])){
+                window.location = "login.html";
+            }
+
+            mixpanel.identify(localStorage['userEmail']);
+
+            datePicker = $('.datepicker').pickadate({
+                selectMonths: false,
+                max: moment()
+            });
+
+           initializeFilePicker();
+            $('#date').val(moment().format('D MMMM, YYYY'));
+
+            $("form").submit(function(e) {
+                var form = this;
+                e.preventDefault();
+                disableSaveButtonWith(form, "SAVING");
+                var entryData = {
+                    email: localStorage.userEmail,
+                    entry: {
+                        duration: $('#duration').val(),
+                        date: moment($('#date').val()).format('YYYY-MM-DD HH:mm:ss'),
+                        description: $('#description').val(),
+                        workout_image_url: $(".workout-uploaded-image-container img").attr("src")
+                    }
+                };
+                mixpanel.track("Add Entry",{
+                    '$email': entryData.email,
+                    'Duration': entryData.entry.duration,
+                    'Date': entryData.entry.date
+                });
+                $.ajax({
+                    url: settings.getSetting("apiUrl") + 'entries.json',
+                    type: 'POST',
+                    data: entryData,
+                    success: function(data, textStatus, jqXHR) {
+                        enableSaveButtonWith(form, 'DONE');
+                        localStorage['lastContribution'] = data.amount_contributed;
+                        window.location = "leaderboard.html"
+                    },
+                    error: function() {
+                        alert("Oops! Something Went Wrong. Failed to save your activity.");
+                        enableSaveButtonWith(form, 'SAVE');
+                    },
+                    timeout: 30000
+                });
+            });
+            enableTestMode();
+            setUnreadNotificationStatus();
+        });
+
+        function enableTestMode(){
+            var settings = JSON.parse(localStorage.getItem("settings")) || {};
+            if(settings.mode === "test"){
+                $(".test-mode").removeClass("hidden");
+            }
+        };
+
+        function initializeFilePicker() {
+            $("#workout-image-upload").click(function(){
+                openFilePicker();
+            });
+        }
+
+        function openFilePicker() {
+            var picker_options = {
+                mimetype: 'image/*',
+                container: 'modal',
+                services: ['COMPUTER'],
+                imageQuality: 60,
+                imageDim: [500, 800]
+            }
+            filepicker.setKey("AdFmUn8s2Q3eKMElczpOTz");
+            filepicker.pick(
+                picker_options,
+                function(responseData){
+                    onFilePickerSuccess(responseData);
+                },
+                function(FPError){
+                    console.log(FPError.toString());
+                    onFilePickerError();
+                }
+            );
+        }
+
+        function onFilePickerError() {
+            alert("Uploading your photo failed! Please reach out to MoveIt support for further help");
+        }
+
+        function onFilePickerSuccess(responseData) {
+            $(".workout-uploaded-image-container img").attr("src", responseData["url"])
+            $(".workout-uploaded-image-container").removeClass("hidden").focus();
+        }
+        </script>
+    </body>
+</html>
