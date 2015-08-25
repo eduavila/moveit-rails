@@ -26,4 +26,4 @@ build:
 deploy:
   steps:
     - heroku-deploy:
-            key-name: STAGING
+            key-name:
