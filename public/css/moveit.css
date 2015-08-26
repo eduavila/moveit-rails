@@ -138,6 +138,33 @@ body .activity-collection .collection-item {
       font-size: 0.8em; }
     body .activity-collection .collection-item .description .off-white {
       color: #b7b7b7; }
+  body .activity-collection .collection-item .interaction-container {
+    margin-bottom: 10px; }
+    body .activity-collection .collection-item .interaction-container .like-action-container {
+      width: 100%; }
+      body .activity-collection .collection-item .interaction-container .like-action-container .like-btn {
+        border: 1px solid #DEDEDE;
+        width: 100px;
+        height: 45px;
+        padding: 0px;
+        display: block;
+        float: left;
+        font-size: 1.2em; }
+        body .activity-collection .collection-item .interaction-container .like-action-container .like-btn .like-icon {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          background: #FDC300 url("../img/thumbs-up.png") center no-repeat;
+          border-radius: 20px;
+          margin: 6px; }
+        body .activity-collection .collection-item .interaction-container .like-action-container .like-btn .like-text {
+          vertical-align: top;
+          padding: 10px 0px 0px 4px;
+          display: inline-block; }
+    body .activity-collection .collection-item .interaction-container .like-action-status {
+      float: left;
+      padding: 12px 0px 0px 6px;
+      font-size: 1.1em; }
 body .all-time-charity-contribution {
   font-size: 24px;
   font-weight: bold;
@@ -161,7 +188,7 @@ body .charity-collection {
     body .charity-collection .charity-image-container img.charity-image {
       width: 100%; }
   body .charity-collection .btn.view-attachment {
-    background-color: #E0E0E0;
+    background-color: #FDC300;
     color: rgba(0, 0, 0, 0.87);
     font-size: 0.8em;
     margin-bottom: 5px; }

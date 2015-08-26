@@ -193,6 +193,38 @@ body {
                     color: rgba(183, 183, 183, 1);
                 }
             }
+            .interaction-container {
+                margin-bottom: 10px;
+                .like-action-container {
+                    width: 100%;
+                    .like-btn {
+                        border: 1px solid #DEDEDE;
+                        width: 100px; height: 45px;
+                        padding: 0px;
+                        display: block;
+                        float: left;
+                        font-size: 1.2em;
+                        .like-icon {
+                            display: inline-block;
+                            width: 30px;
+                            height: 30px;
+                            background: #FDC300 url("../img/thumbs-up.png") center no-repeat;
+                            border-radius: 20px;
+                            margin: 6px;
+                        }
+                        .like-text {
+                            vertical-align: top;
+                            padding: 10px 0px 0px 4px;
+                            display: inline-block;
+                        }
+                    }
+                }
+                .like-action-status {
+                    float: left;
+                    padding: 12px 0px 0px 6px;
+                    font-size: 1.1em;
+                }
+            }
         }
     }
     .all-time-charity-contribution {
@@ -221,7 +253,7 @@ body {
             }
         }
         .btn.view-attachment {
-            background-color: #E0E0E0;
+            background-color: #FDC300;
             color: rgba(0,0,0,0.87);
             font-size: 0.8em;
             margin-bottom: 5px;
