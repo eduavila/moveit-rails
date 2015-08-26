@@ -1,0 +1,1 @@
+bundle exec sass --watch ../moveit-shared-client/css/:../moveit-shared-client/css/
