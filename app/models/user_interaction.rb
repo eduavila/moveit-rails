@@ -1,6 +1,7 @@
 class UserInteraction < ActiveRecord::Base
   NUDGE = "nudge"
   BUMP = "bump"
+  LIKE = "like"
 
   belongs_to :from_user, class_name: "User"
   belongs_to :to_user, class_name: "User"

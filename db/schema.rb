@@ -11,35 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150805053837) do
+ActiveRecord::Schema.define(version: 20150827064902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
+    t.integer  "subject_id"
+    t.string   "subject_type"
+    t.integer  "user_id"
+    t.integer  "target_user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "subject_id",     null: false
-    t.string   "subject_type",   null: false
-    t.integer  "target_user_id"
-    t.integer  "user_id",        null: false
   end
 
-  add_index "activities", ["subject_id"], name: "index_activities_on_subject_id", using: :btree
   add_index "activities", ["subject_type"], name: "index_activities_on_subject_type", using: :btree
   add_index "activities", ["target_user_id"], name: "index_activities_on_target_user_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
 
   create_table "entries", force: :cascade do |t|
-    t.datetime "date"
-    t.integer  "duration"
-    t.integer  "user_id"
+    t.datetime "date",                           null: false
+    t.integer  "duration",                       null: false
+    t.integer  "user_id",                        null: false
+    t.integer  "amount_contributed", default: 0
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.integer  "amount_contributed", default: 0
     t.text     "description"
     t.string   "workout_image_url"
   end
+
+  add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
@@ -51,11 +52,13 @@ ActiveRecord::Schema.define(version: 20150805053837) do
     t.integer  "from_user_id"
     t.integer  "to_user_id"
     t.string   "interaction_type"
+    t.boolean  "notification_read", default: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.boolean  "notification_read", default: false
+    t.integer  "entry_id"
   end
 
+  add_index "user_interactions", ["entry_id"], name: "index_user_interactions_on_entry_id", using: :btree
   add_index "user_interactions", ["from_user_id"], name: "index_user_interactions_on_from_user_id", using: :btree
   add_index "user_interactions", ["interaction_type"], name: "index_user_interactions_on_interaction_type", using: :btree
   add_index "user_interactions", ["to_user_id"], name: "index_user_interactions_on_to_user_id", using: :btree
@@ -63,9 +66,9 @@ ActiveRecord::Schema.define(version: 20150805053837) do
   create_table "users", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
+    t.string   "gcm_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.string   "gcm_id"
     t.string   "slack_user_name"
     t.integer  "organization_id"
   end
