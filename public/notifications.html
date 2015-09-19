@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/materialize.min.css">
+        <link rel="stylesheet" href="css/moveit.css">
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <!-- start Mixpanel -->
+        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="js/mixpanel.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("d483a1c5b31de18a13a7de3d10b99db4");</script>
+        <!-- end Mixpanel -->
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    </head>
+    <body class="index">
+        <div class="test-mode hidden">
+            <span>
+                Test Mode Enabled
+            </span>
+        </div>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" data-activates="mobile-demo" class="button-collapse burger-menu"><i class="mdi-navigation-menu"><span>Notifications</span></i></a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li><a href="charity.html"><b>Charity</b></a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="charity.html"><b>Charity</b></a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
+                    <li><a href="leaderboard.html">Leaderboard</a></li>
+                    <li><a href="user_profile.html">Profile</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+        <script type="text/html" id="interaction-activity-template">
+            <li class="collection-item row notification-read <%= notification_read %>" data-notification_id="<%= notification_id %>">
+                <a href="user_profile.html?email=<%= email %>">
+                    <img src="<%= gravatarUrl %>" class="circle">
+                </a>
+                <span class="description">
+                    <div class="content">
+                        <span class="subject"><%= name %></span>
+                        <span class="action"><%= action %> you</span>
+                        <span class="object"></span>
+                    </div>
+                    <div class="time-ago off-white">
+                        <span class="interaction-icon"> <img src="img/<%=action %>.png"></span><span><%= time_ago %> ago</span>
+                    </div>
+                </span>
+            </li>
+        </script>
+        <script type="text/html" id="empty-notification-template">
+            <li class="collection-item row notification-read false" data-notification_id="<%= notification_id %>">
+                <a href="notifications.html">
+                    <img src="img/announcement.png" class="circle">
+                </a>
+                <span class="description">
+                    <div class="content">
+                        <span class="subject">None yet!</span>
+                        <span class="action"></span>
+                        <span class="object"></span>
+                    </div>
+                    <div class="time-ago off-white">
+                        <span class="interaction-icon"> </span><span>You will see them soon</span>
+                    </div>
+                </span>
+            </li>
+        </script>
+        <div class="row">
+            <div class="loading-throbber col s12 center">
+                    <div class="preloader-wrapper small active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <ul class="collection activity-collection" id="notifications-collection">
+            </ul>
+        </div>
+
+        <div class="bottom-spacing">
+        </div>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light add-entry-btn"><i class="mdi-content-add"></i></a>
+        </div>
+        <!-- inject stuff here -->
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/moveit.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/underscore.min.js"></script>
+        <script src="js/settings.js"></script>
+
+        <!-- Google Analytics -->
+        <script>
+         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+         })(window,document,'script','js/analytics.js','ga');
+
+         ga('create', 'UA-5073218-11', 'auto');
+         ga('send', 'pageview');
+
+        </script>
+        <!-- End Google Analytics -->
+
+        <script>
+         $(document).on("resume", onResume, false);
+
+         function onResume(){
+             location.reload();
+         }
+
+         $(function() {
+             $(".button-collapse").sideNav();
+             if(_.isEmpty(localStorage['userEmail'])){
+                 window.location = "login.html";
+             }
+             mixpanel.identify(localStorage['userEmail']);
+             $(".loading-throbber").show();
+             requestUserNotifications();
+             enableTestMode();
+         });
+
+         function requestUserNotifications(){
+            console.log("requesting for feed_data");
+             $.ajax({
+                 url: settings.getSetting("apiUrl") + 'notifications.json',
+                 type: 'GET',
+                 data: {email: localStorage.getItem("userEmail")},
+                 success: function(data, textStatus, jqXHR){
+                    console.log("got feed success response");
+                    console.log(data);
+                    $(".loading-throbber").hide();
+                    populateNotificationsCollection(data.notifications);
+                    markNotificationsAsRead();
+                 },
+                 error: function() {
+                     $(".loading-throbber").hide();
+                     alert('Oops! Something Went Wrong. Failed to fetch all notifications');
+                 },
+                 timeout: 30000
+             });
+         }
+
+         function populateNotificationsCollection(feed_data) {
+         	if(feed_data.length == 0) {
+         		var emptyActivityTemplate = $("#empty-notification-template").html();
+         		$("#notifications-collection").append(emptyActivityTemplate);
+         	}
+            _.each(feed_data, function(activity){
+                activity.activity_json_data.time_since_in_words = activity.time_since_in_words
+                if(activity.activity_type == "UserInteraction"){
+                    appendInteraction(activity.activity_json_data);
+                }
+            });
+
+         }
+
+         function appendInteraction(interaction_activity){
+             var activityTemplate = $("#interaction-activity-template").html();
+                 var templateData = {
+                     notification_id: interaction_activity.id,
+                     email: interaction_activity.email,
+                     name: interaction_activity.name,
+                     gravatarUrl: interaction_activity.gravatar_url,
+                     action: interaction_activity.interaction_type,
+                     time_ago: interaction_activity.time_since_in_words,
+                     notification_read: interaction_activity.notification_read
+                 }
+                 var processedTemplate = _.template(activityTemplate);
+                 $("#notifications-collection").append(processedTemplate(templateData));
+         }
+
+         function enableTestMode(){
+             var settings = JSON.parse(localStorage.getItem("settings")) || {};
+             if(settings.mode === "test"){
+                 $(".test-mode").removeClass("hidden");
+             }
+         }
+
+         function markNotificationsAsRead(){
+             $.ajax({
+                 dataType: 'json',
+                 url: settings.getSetting("apiUrl") + 'notifications/read.json',
+                 type: "POST",
+                 data: {email: localStorage.getItem("userEmail")},
+                 success: function(data, textStatus, jqXHR){
+                    console.log("Marked all notifications as READ for "+localStorage.getItem("userEmail"));
+                 },
+                 error: function(){
+                    console.log("Marking notifications as read FAILED");
+                 },
+                 timeout: 30000
+             });
+         }
+        </script>
+    </body>
+</html>
