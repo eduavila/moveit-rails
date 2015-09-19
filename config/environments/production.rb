@@ -78,5 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
 
-  MULTUNUS_SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
+  MULTUNUS_SLACK_WEBHOOK = "https://hooks.slack.com/services/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"
 end
