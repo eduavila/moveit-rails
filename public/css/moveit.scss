@@ -9,7 +9,7 @@ input{
 }
 
 body {
-    
+
     .hidden{
         display: none;
     }
@@ -27,7 +27,7 @@ body {
     }
     nav{
         background-color: $moveit-primary-color;
-        .burger-menu{ 
+        .burger-menu{
             padding-left: 10px;
             color: black;
             span {
@@ -50,7 +50,8 @@ body {
 
         .notifications-link {
             position: absolute;
-            top: 7px;
+            top: 50%;
+            transform: translate(0, -50%);
             right: 20px;
             z-index: 99;
             background-color: #FFAB00;
@@ -58,12 +59,8 @@ body {
                   background-color: #F44336;
             }
             .notification-count {
-                position: absolute;
-                top: 3px;
-                left: 0px;
                 display: inline-block;
                 width: 100%;
-                height: 24px;
                 font-size: 14px;
                 color: white;
                 border-radius: 20px;
@@ -117,13 +114,14 @@ body {
     }
     .activity-collection {
         &.collection{
+            padding: 8px 0;
             border-top:none;
             border-bottom: none;
         }
         .collection-item{
             width: 92%;
             margin: 5px 4% 10px 4%;
-            padding: 10px 10px 0px 10px;
+            padding: 10px;
             box-shadow: 0px 0px 1px rgb(200, 200, 200);
             border-bottom: 1px solid #e0e0e0 !important;
             background-color: #FAFAFA;
@@ -131,7 +129,7 @@ body {
                 &.false{
                     background-color: #FFFFFF;
                     img.circle{
-                      border: 3px solid #43ca01;  
+                      border: 3px solid #43ca01;
                     }
                 }
                 &.true{
@@ -140,9 +138,13 @@ body {
             }
             .activity-description {
                 color: #424242;
-                margin-top: 15px;
-                margin-bottom: 15px;
+                margin: 0;
+                padding-top: 15px;
                 font-size: 1.2em;
+
+                &:empty {
+                    padding: 0;
+                }
             }
             a{
                 cursor:pointer;
@@ -159,7 +161,7 @@ body {
                     width: 100%;
                     height: auto;
                 }
-            }            
+            }
             .description{
                 display: inline-block;
                 vertical-align: middle;
@@ -275,10 +277,10 @@ body {
                 }
             }
             &.bumping{
-                background-color:  $green;  
+                background-color:  $green;
             }
             &.nudgeing{
-                background-color:  $moveit-primary-color;  
+                background-color:  $moveit-primary-color;
             }
         }
         .collection{
@@ -300,16 +302,16 @@ body {
             .indicator{
                 margin-top: 1px;
                 margin-bottom: 1px;
-                
+
                 &.active-user{
                     .profile-pic{
                         border: 3px solid $green;
-                    } 
+                    }
                 }
                 &.inactive-user{
                     .profile-pic{
                         border: 3px solid $moveit-primary-color;
-                    } 
+                    }
                 }
                 &.blank{
                     .profile-pic{
@@ -335,22 +337,22 @@ body {
                         display: none;
                     }
                 }
-                
+
             }
-            
+
             .highlight{
                 background-color: rgb(249, 244, 224);
             }
             .collection-item{
                 padding: 20px 20px;
                 &.avatar{
-                    padding-left: 52px;   
+                    padding-left: 52px;
                 }
 
                 .highlight{
                     background-color: rgb(249, 244, 224);
                 }
-                
+
                 .item-content{
                     margin-top: 6px;
                     margin-left: 10px;
@@ -377,7 +379,7 @@ body {
                         }
                     }
                 }
-                
+
             }
         }
         .modal {
@@ -508,6 +510,8 @@ a {
 }
 
 .workout-entry-form {
+    padding: 8px 0;
+
     textarea {
         padding-bottom: 10px;
     }
@@ -558,5 +562,5 @@ a {
 }
 
 @media (max-width: 768px) {
-   
+
 }

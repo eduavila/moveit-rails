@@ -2,6 +2,28 @@ $(function(){
   $('.add-entry-btn').on('click', 'i' , function(){
     window.location = "index.html";
   });
+
+  // Open links within standalone web apps for iOS
+  if(("standalone" in window.navigator) && window.navigator.standalone){
+
+    var noddy, remotes = false;
+
+    document.addEventListener('click', function(event) {
+
+      noddy = event.target;
+
+      while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+        noddy = noddy.parentNode;
+      }
+
+      if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes))
+      {
+        event.preventDefault();
+        document.location.href = noddy.href;
+      }
+
+    },false);
+  }
 });
 
 var isRunningOnBrowser = function() {
@@ -62,11 +84,11 @@ var setUnreadNotificationStatus = function() {
 }
 
 function setupMonthDropdown(pageHREF) {
-  var currentMonth = moment().endOf('month'); 
-  var previousMonth1 = moment().subtract(1, 'months').endOf('month'); 
-  var previousMonth2 = moment().subtract(2, 'months').endOf('month'); 
+  var currentMonth = moment().endOf('month');
+  var previousMonth1 = moment().subtract(1, 'months').endOf('month');
+  var previousMonth2 = moment().subtract(2, 'months').endOf('month');
   var monthURL = pageHREF+"?month=";
-  
+
   $("#months-dropdown a").each(function(){
     if($(this).data('month') == "current") {
       $(this).attr('href', monthURL+currentMonth.format('MMMMYYYY'));
@@ -78,7 +100,7 @@ function setupMonthDropdown(pageHREF) {
       $(this).attr('href',monthURL+previousMonth2.format('MMMMYYYY'));
       $(this).text(previousMonth2.format('MMMM'));
     }
-  });  
+  });
 }
 
 var UserInteraction = {
@@ -123,4 +145,3 @@ var UserInteraction = {
     }
   }
 };
-

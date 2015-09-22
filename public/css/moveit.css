@@ -31,19 +31,16 @@ body nav {
     position: absolute; }
   body nav .notifications-link {
     position: absolute;
-    top: 7px;
+    top: 50%;
+    transform: translate(0, -50%);
     right: 20px;
     z-index: 99;
     background-color: #FFAB00; }
     body nav .notifications-link.active {
       background-color: #F44336; }
     body nav .notifications-link .notification-count {
-      position: absolute;
-      top: 3px;
-      left: 0px;
       display: inline-block;
       width: 100%;
-      height: 24px;
       font-size: 14px;
       color: white;
       border-radius: 20px;
@@ -82,12 +79,13 @@ body .top-bar {
       font-size: 13px;
       color: #bbaa4e; }
 body .activity-collection.collection {
+  padding: 8px 0;
   border-top: none;
   border-bottom: none; }
 body .activity-collection .collection-item {
   width: 92%;
   margin: 5px 4% 10px 4%;
-  padding: 10px 10px 0px 10px;
+  padding: 10px;
   box-shadow: 0px 0px 1px #c8c8c8;
   border-bottom: 1px solid #e0e0e0 !important;
   background-color: #FAFAFA; }
@@ -99,9 +97,11 @@ body .activity-collection .collection-item {
     background-color: #EEEEEE; }
   body .activity-collection .collection-item .activity-description {
     color: #424242;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 0;
+    padding-top: 15px;
     font-size: 1.2em; }
+    body .activity-collection .collection-item .activity-description:empty {
+      padding: 0; }
   body .activity-collection .collection-item a {
     cursor: pointer;
     display: inline-block;
@@ -356,22 +356,24 @@ a:hover, a:focus {
 .form-fields {
   padding-top: 10px; }
 
-.workout-entry-form textarea {
-  padding-bottom: 10px; }
-.workout-entry-form .file-field.col .btn {
-  padding: 0px 0px;
-  height: 75px;
-  width: 75px;
-  background: #EDEDED url("../img/cam-icon.png") center no-repeat; }
-.workout-entry-form .workout-uploaded-image-container {
-  height: 100%;
-  overflow: hidden;
-  text-align: center; }
-  .workout-entry-form .workout-uploaded-image-container img {
-    width: auto;
-    height: 100%; }
-.workout-entry-form .submit-btn-container {
-  margin-top: 2em; }
+.workout-entry-form {
+  padding: 8px 0; }
+  .workout-entry-form textarea {
+    padding-bottom: 10px; }
+  .workout-entry-form .file-field.col .btn {
+    padding: 0px 0px;
+    height: 75px;
+    width: 75px;
+    background: #EDEDED url("../img/cam-icon.png") center no-repeat; }
+  .workout-entry-form .workout-uploaded-image-container {
+    height: 100%;
+    overflow: hidden;
+    text-align: center; }
+    .workout-entry-form .workout-uploaded-image-container img {
+      width: auto;
+      height: 100%; }
+  .workout-entry-form .submit-btn-container {
+    margin-top: 2em; }
 
 .arrow-down {
   width: 0px;
