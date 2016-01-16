@@ -3,9 +3,10 @@ class UsersController < ApiController
 
   def create
     @user = User.create_with(user_params).find_or_create_by(email: user_params[:email])
+    render json: @user.to_json(root:true, methods: [:gravatar_url])
   end
 
-  def interaction 
+  def interaction
     from_user = User.find_by_email(params[:from_email_id])
     to_user = User.find_by_email(params[:to_email_id])
     @user_interaction = UserInteraction.create(from_user: from_user, to_user: to_user, interaction_type: params[:interaction_type])
@@ -19,7 +20,7 @@ class UsersController < ApiController
     month = params[:month]
 
     if month.blank?
-      render json: {error: "Month parameter should be sent"}, status: :unprocessable_entity 
+      render json: {error: "Month parameter should be sent"}, status: :unprocessable_entity
     else
       start_of_month = Time.parse(month).beginning_of_month
       end_of_month = Time.parse(month).end_of_month
